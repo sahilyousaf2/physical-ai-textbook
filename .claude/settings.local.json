@@ -12,7 +12,18 @@
       "Bash(findstr :3000)",
       "Bash(npx docusaurus build)",
       "Bash(git commit -m \"Add Vercel configuration and fix navigation issues for Physical AI Textbook\")",
-      "Bash(git add .)"
+      "Bash(git add .)",
+      "Bash(git commit -m \"Configure for GitHub Pages deployment with updated workflow and settings\")",
+      "Bash(git add README.md)",
+      "Bash(git commit -m \"Add root README with project overview and deployment instructions\")",
+      "Bash(git push origin master)",
+      "Bash(git checkout -b main)",
+      "Bash(git push -u origin main)",
+      "Bash(git pull:*)",
+      "Bash(git commit -m \"Resolve merge conflict in README.md\")",
+      "Bash(git commit -m \"Update Docusaurus config with correct GitHub username and project details\")",
+      "Bash(git push origin main)",
+      "Bash(git commit -m \"Add GitHub Pages deployment status note to README\")"
     ],
     "deny": [],
     "ask": []
