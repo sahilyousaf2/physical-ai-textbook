@@ -8,7 +8,7 @@ This project is ready to deploy to Vercel. Here's how:
 
 ### Method 1: One-Click Deploy (Recommended)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-organization/physical-ai-textbook&project-name=physical-ai-textbook&repository-name=physical-ai-textbook)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/sahilyousaf2/physical-ai-textbook&project-name=physical-ai-textbook&repository-name=physical-ai-textbook)
 
 ### Method 2: Manual Deployment
 

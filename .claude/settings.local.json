@@ -23,7 +23,11 @@
       "Bash(git commit -m \"Resolve merge conflict in README.md\")",
       "Bash(git commit -m \"Update Docusaurus config with correct GitHub username and project details\")",
       "Bash(git push origin main)",
-      "Bash(git commit -m \"Add GitHub Pages deployment status note to README\")"
+      "Bash(git commit -m \"Add GitHub Pages deployment status note to README\")",
+      "Bash(npm run serve)",
+      "Bash(npm run)",
+      "Bash(cat package.json)",
+      "Bash(git add .claude/settings.local.json book/VERCEL.md)"
     ],
     "deny": [],
     "ask": []
