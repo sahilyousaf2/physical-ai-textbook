@@ -22,12 +22,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd my-website
+          cd book
           npm ci
 
       - name: Build website
         run: |
-          cd my-website
+          cd book
           npm run build
 
       - name: Deploy to GitHub Pages
@@ -35,7 +35,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./my-website/build
+          publish_dir: ./book/build
           # The following lines assign commit authorship to the official
           # GH-Actions bot for deploys to `gh-pages` branch.
           # You can swap them out for your own user credentials.
