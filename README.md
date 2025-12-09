@@ -48,3 +48,8 @@ This textbook covers:
 - Module 2: The Digital Twin (Gazebo & Unity)
 - Module 3: The AI-Robot Brain (NVIDIA Isaac)
 - Module 4: Vision-Language-Action (VLA) Systems
+
+---
+
+## GitHub Pages Deployment Status
+✅ GitHub Actions workflow is configured and will automatically deploy the site to GitHub Pages when changes are pushed to the main branch.
