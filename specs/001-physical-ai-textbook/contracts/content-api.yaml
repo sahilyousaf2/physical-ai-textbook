@@ -1,0 +1,225 @@
+# API Contract: Physical AI Textbook Content API
+
+## Overview
+This document defines the API contract for the Physical AI & Humanoid Robotics textbook platform. The API provides access to educational content, exercises, and learning resources.
+
+## Base URL
+```
+https://physical-ai-textbook.example.com/api/v1
+```
+
+## Content Endpoints
+
+### Get All Modules
+```
+GET /modules
+```
+
+#### Description
+Retrieve a list of all course modules with basic information.
+
+#### Request
+- Method: GET
+- Path: `/modules`
+- Headers: None required
+
+#### Response
+- Status: 200 OK
+- Content-Type: application/json
+
+```json
+{
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "The Robotic Nervous System (ROS 2)",
+      "description": "Introduction to ROS 2 architecture, nodes, topics, and services",
+      "weeks": 3,
+      "learningObjectives": [
+        "Understand ROS 2 architecture",
+        "Create and run ROS 2 nodes",
+        "Work with topics and services"
+      ],
+      "prerequisites": [
+        "Basic Python knowledge",
+        "Familiarity with command line"
+      ],
+      "order": 1
+    }
+  ]
+}
+```
+
+### Get Module by ID
+```
+GET /modules/{moduleId}
+```
+
+#### Description
+Retrieve detailed information about a specific module including all weeks and content.
+
+#### Path Parameters
+- `moduleId`: string - The unique identifier for the module (e.g., "module-1")
+
+#### Response
+- Status: 200 OK
+- Content-Type: application/json
+
+```json
+{
+  "id": "module-1",
+  "title": "The Robotic Nervous System (ROS 2)",
+  "description": "Introduction to ROS 2 architecture, nodes, topics, and services",
+  "weeks": [
+    {
+      "id": "module-1-week-3",
+      "title": "ROS 2 Architecture",
+      "description": "Understanding the fundamental components of ROS 2",
+      "topics": [
+        "Nodes",
+        "Topics",
+        "Services",
+        "Parameters"
+      ],
+      "learningObjectives": [
+        "Explain ROS 2 architecture",
+        "Identify key components"
+      ],
+      "order": 1
+    }
+  ],
+  "order": 1
+}
+```
+
+### Get Week Content
+```
+GET /modules/{moduleId}/weeks/{weekId}
+```
+
+#### Description
+Retrieve detailed content for a specific week including text, code examples, and exercises.
+
+#### Path Parameters
+- `moduleId`: string - The unique identifier for the module
+- `weekId`: string - The unique identifier for the week
+
+#### Response
+- Status: 200 OK
+- Content-Type: application/json
+
+```json
+{
+  "id": "module-1-week-3",
+  "title": "ROS 2 Architecture",
+  "description": "Understanding the fundamental components of ROS 2",
+  "content": "# ROS 2 Architecture\n\nROS 2 is designed around...",
+  "codeExamples": [
+    {
+      "id": "example-1",
+      "title": "Creating a Simple Node",
+      "description": "Basic example of creating a ROS 2 node",
+      "code": "import rclpy\nfrom rclpy.node import Node\n\nclass MinimalPublisher(Node):\n    def __init__(self):\n        super().__init__('minimal_publisher')",
+      "language": "python",
+      "complexity": "beginner"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "exercise-1",
+      "title": "Create Your First Node",
+      "description": "Create a simple ROS 2 node that publishes a message",
+      "type": "coding",
+      "difficulty": "beginner",
+      "estimatedTime": 30
+    }
+  ],
+  "learningObjectives": [
+    "Explain ROS 2 architecture",
+    "Identify key components"
+  ]
+}
+```
+
+### Search Content
+```
+GET /search
+```
+
+#### Description
+Search across all textbook content with full-text search capabilities.
+
+#### Query Parameters
+- `q`: string - Search query term
+- `limit`: number - Maximum number of results (default: 10, max: 50)
+- `module`: string - Optional module filter
+
+#### Response
+- Status: 200 OK
+- Content-Type: application/json
+
+```json
+{
+  "query": "ROS 2 nodes",
+  "results": [
+    {
+      "id": "module-1-week-3-content",
+      "title": "Introduction to ROS 2 Nodes",
+      "module": "module-1",
+      "week": "module-1-week-3",
+      "preview": "In ROS 2, nodes are the fundamental...",
+      "url": "/docs/module-1/week-3/introduction-to-nodes"
+    }
+  ],
+  "total": 1,
+  "took": 123  // Time in milliseconds
+}
+```
+
+## Error Responses
+
+### 404 Not Found
+```json
+{
+  "error": {
+    "code": "RESOURCE_NOT_FOUND",
+    "message": "The requested resource was not found",
+    "details": "Module with id 'invalid-module' does not exist"
+  }
+}
+```
+
+### 400 Bad Request
+```json
+{
+  "error": {
+    "code": "INVALID_PARAMETER",
+    "message": "Invalid parameter provided",
+    "details": "moduleId must be a valid string"
+  }
+}
+```
+
+### 500 Internal Server Error
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "An internal error occurred",
+    "details": "Please try again later or contact support"
+  }
+}
+```
+
+## Authentication
+Most endpoints are public and do not require authentication. However, progress tracking endpoints may require authentication using standard Bearer token authentication.
+
+## Rate Limiting
+The API implements rate limiting to prevent abuse:
+- Anonymous requests: 100 requests per hour per IP
+- Authenticated requests: 1000 requests per hour per user
+
+Rate limit headers are included in all responses:
+- `X-RateLimit-Limit`: The maximum number of requests allowed
+- `X-RateLimit-Remaining`: The remaining requests in the current window
+- `X-RateLimit-Reset`: Unix timestamp for when the rate limit resets

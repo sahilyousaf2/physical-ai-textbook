@@ -1,0 +1,232 @@
+---
+sidebar_position: 1
+---
+
+# Quick Start Guide for Beginners
+
+Welcome to the Physical AI & Humanoid Robotics textbook! This quick start guide will help you set up your development environment and run your first robotics application in just a few steps. Follow this guide if you're new to robotics development or want to get started quickly.
+
+## Before You Begin
+
+This guide assumes you have:
+
+- A computer running Ubuntu 22.04 LTS, Windows 10/11, or macOS 12+
+- At least 8GB of RAM (16GB recommended)
+- Sufficient disk space (20GB+ recommended)
+- A stable internet connection
+- Basic familiarity with command line tools
+
+## Step 1: Install ROS 2 (Robot Operating System 2)
+
+ROS 2 is the core framework for robotics development covered in this textbook.
+
+### On Ubuntu:
+
+1. Open a terminal and run these commands:
+
+```bash
+# Add ROS 2 repository
+sudo apt update && sudo apt install -y curl gnupg lsb-release
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+# Install ROS 2 Humble
+sudo apt update
+sudo apt install ros-humble-desktop
+sudo apt install python3-colcon-common-extensions
+```
+
+2. Set up your environment:
+
+```bash
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+### On Windows:
+
+Use Windows Subsystem for Linux (WSL2):
+
+1. Install WSL2 with Ubuntu 22.04 from the Microsoft Store
+2. Follow the Ubuntu installation steps above within your WSL2 terminal
+3. Install an X11 server like VcXsrv for GUI applications
+
+## Step 2: Verify Your Installation
+
+Test that ROS 2 is working:
+
+```bash
+# Check ROS 2 version
+ros2 --version
+
+# Test communication between nodes
+# Terminal 1:
+ros2 run demo_nodes_cpp talker
+
+# Terminal 2 (in a new terminal):
+ros2 run demo_nodes_py listener
+```
+
+You should see messages being transmitted from the talker to the listener.
+
+## Step 3: Create Your First ROS 2 Package
+
+1. Create a workspace directory:
+
+```bash
+mkdir -p ~/robotics_ws/src
+cd ~/robotics_ws
+```
+
+2. Create a new package:
+
+```bash
+cd src
+ros2 pkg create --build-type ament_python my_first_robot_pkg --dependencies rclpy std_msgs
+```
+
+3. Build your workspace:
+
+```bash
+cd ~/robotics_ws
+colcon build --packages-select my_first_robot_pkg
+source install/setup.bash
+```
+
+## Step 4: Run Your First Simulation
+
+Let's run a simple simulation with Gazebo:
+
+1. Install Gazebo integration:
+
+```bash
+sudo apt install ros-humble-gazebo-ros-pkgs ros-humble-gazebo-dev
+```
+
+2. Launch Gazebo:
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 launch gazebo_ros gazebo.launch.py
+```
+
+A Gazebo window should appear with a default environment.
+
+## Step 5: Create a Simple Robot Controller
+
+Let's create a simple node that controls a robot:
+
+1. Navigate to your package:
+
+```bash
+cd ~/robotics_ws/src/my_first_robot_pkg
+```
+
+2. Create a simple publisher node in `my_first_robot_pkg/my_first_robot_pkg/simple_controller.py`:
+
+```python
+#!/usr/bin/env python3
+
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+class SimpleController(Node):
+    def __init__(self):
+        super().__init__('simple_controller')
+        self.publisher = self.create_publisher(String, 'robot_command', 10)
+        timer_period = 1  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.i = 0
+
+    def timer_callback(self):
+        msg = String()
+        msg.data = f'Hello Robot {self.i}'
+        self.publisher.publish(msg)
+        self.get_logger().info(f'Publishing: "{msg.data}"')
+        self.i += 1
+
+def main(args=None):
+    rclpy.init(args=args)
+    simple_controller = SimpleController()
+    rclpy.spin(simple_controller)
+    simple_controller.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+3. Make the script executable and update the setup.py file:
+
+```bash
+chmod +x my_first_robot_pkg/simple_controller.py
+```
+
+4. Build and run your controller:
+
+```bash
+cd ~/robotics_ws
+colcon build --packages-select my_first_robot_pkg
+source install/setup.bash
+ros2 run my_first_robot_pkg simple_controller
+```
+
+## Step 6: Explore More Examples
+
+Now that you have a working environment, explore the following examples in this textbook:
+
+- [Module 1: The Robotic Nervous System (ROS 2)](/docs/module-1) - Learn ROS 2 fundamentals
+- [Module 2: The Digital Twin (Gazebo & Unity)](/docs/module-2) - Learn simulation
+- [Module 3: The AI-Robot Brain (NVIDIA Isaac)](/docs/module-3) - Learn advanced AI
+- [Module 4: Vision-Language-Action (VLA)](/docs/module-4) - Learn multimodal AI
+
+## Common Commands Reference
+
+Here are some useful ROS 2 commands you'll use frequently:
+
+```bash
+# List all topics
+ros2 topic list
+
+# Echo messages on a topic
+ros2 topic echo /topic_name
+
+# List all nodes
+ros2 node list
+
+# Run a node
+ros2 run package_name executable_name
+
+# Launch a system
+ros2 launch package_name launch_file.py
+```
+
+## Troubleshooting Your Quick Start
+
+If you encounter issues:
+
+1. **Check environment setup**: Make sure you've sourced the ROS 2 environment in each new terminal:
+   ```bash
+   source /opt/ros/humble/setup.bash
+   source ~/robotics_ws/install/setup.bash
+   ```
+
+2. **Verify installation**: Ensure all packages are correctly installed:
+   ```bash
+   dpkg -l | grep ros-humble
+   ```
+
+3. **Check for errors**: Look for error messages in the terminal output and address them one by one.
+
+4. **Consult the [Troubleshooting Guide](./troubleshooting)** for common issues and solutions.
+
+## Next Steps
+
+Congratulations! You've successfully set up your robotics development environment and run your first example. Continue your journey with:
+
+1. [Module 1: The Robotic Nervous System (ROS 2)](/docs/module-1) - Deep dive into ROS 2 concepts
+2. [Hardware Requirements](./hardware-requirements) - Understand the hardware needed for advanced projects
+3. [ROS 2 Setup Instructions](./setup-ros2) - Learn more advanced ROS 2 features
+
+This quick start guide provides the foundation for everything covered in this textbook. Each module builds upon these basics to create increasingly sophisticated robotics applications.

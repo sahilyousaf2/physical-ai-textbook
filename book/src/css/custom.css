@@ -1,0 +1,184 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1d4ed8;
+  --ifm-color-primary-darker: #1e40af;
+  --ifm-color-primary-darkest: #1e3a8a;
+  --ifm-color-primary-light: #3b82f6;
+  --ifm-color-primary-lighter: #60a5fa;
+  --ifm-color-primary-lightest: #93c5fd;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Educational content specific variables */
+  --education-color-accent: #f59e0b;
+  --education-color-success: #10b981;
+  --education-color-warning: #f59e0b;
+  --education-color-danger: #ef4444;
+  --education-font-size-sm: 0.875rem;
+  --education-font-size-base: 1rem;
+  --education-font-size-lg: 1.125rem;
+  --education-font-size-xl: 1.25rem;
+  --education-line-height: 1.6;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #3b82f6;
+  --ifm-color-primary-dark: #2563eb;
+  --ifm-color-primary-darker: #1d4ed8;
+  --ifm-color-primary-darkest: #1e3a8a;
+  --ifm-color-primary-light: #60a5fa;
+  --ifm-color-primary-lighter: #93c5fd;
+  --ifm-color-primary-lightest: #bfdbfe;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  /* Dark mode educational content variables */
+  --education-color-accent: #fbbf24;
+  --education-color-success: #34d399;
+  --education-color-warning: #fbbf24;
+  --education-color-danger: #f87171;
+}
+
+/* Educational content styling */
+.markdown h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.markdown h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  padding-bottom: 0.5rem;
+}
+
+.markdown h3 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Code block enhancements for educational content */
+.code-block-error-line {
+  background-color: #ff000020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #ff000080;
+}
+
+.code-block-success-line {
+  background-color: #00ff0020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #00ff0080;
+}
+
+/* Exercise and practice boxes */
+.practice-exercise {
+  border: 2px solid var(--education-color-accent);
+  border-radius: var(--ifm-global-radius);
+  padding: var(--ifm-spacing-vertical) var(--ifm-spacing-horizontal);
+  margin: var(--ifm-spacing-vertical) 0;
+  background-color: rgba(245, 158, 11, 0.05);
+}
+
+.practice-exercise-title {
+  font-weight: bold;
+  color: var(--education-color-accent);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Learning objectives styling */
+.learning-objectives {
+  border-left: 4px solid var(--ifm-color-primary);
+  background-color: rgba(37, 99, 235, 0.05);
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.learning-objectives ul {
+  margin-bottom: 0;
+}
+
+/* Diagram container styling */
+.diagram-container {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-background-surface-color);
+}
+
+/* Table enhancements for educational content */
+.markdown table {
+  display: table;
+}
+
+.markdown table th,
+.markdown table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.markdown table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid var(--ifm-color-emphasis-500);
+}
+
+/* Admonitions for educational content */
+.alert--info {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.alert--tip {
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.alert--caution {
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.alert--danger {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Enhanced readability for educational content */
+.markdown {
+  font-size: var(--education-font-size-base);
+  line-height: var(--education-line-height);
+}
+
+/* Navigation and sidebar enhancements */
+.menu__list-item-collapsible .menu__version-item {
+  font-weight: 500;
+}
+
+/* Responsive design for educational content */
+@media (max-width: 996px) {
+  .markdown h1 {
+    font-size: 1.75rem;
+  }
+
+  .markdown h2 {
+    font-size: 1.375rem;
+  }
+
+  .practice-exercise {
+    padding: 0.75rem;
+  }
+}

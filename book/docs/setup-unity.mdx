@@ -1,0 +1,224 @@
+---
+sidebar_position: 6
+---
+
+# Unity Setup Instructions
+
+This page provides detailed instructions for setting up Unity, the real-time 3D development platform that will be used for high-fidelity rendering and simulation in the Physical AI & Humanoid Robotics textbook. Unity will be used for creating digital twins and advanced visualization.
+
+## Prerequisites
+
+Before installing Unity, ensure you have:
+
+- Compatible operating system (Windows 10/11, macOS 10.15+, or Ubuntu 20.04+)
+- Adequate hardware (see [Hardware Requirements](./hardware-requirements) for Unity-specific requirements)
+- Internet connection for downloading packages
+- At least 20GB of free disk space
+- Graphics card with DirectX 10, OpenGL 3.3, or Metal support
+
+## Unity Installation
+
+### 1. Download Unity Hub
+
+Unity Hub is the recommended way to manage Unity installations:
+
+1. Go to [Unity's download page](https://unity.com/download)
+2. Download Unity Hub for your operating system
+3. Install Unity Hub following the platform-specific instructions
+
+### 2. Create Unity Account
+
+1. Launch Unity Hub
+2. Sign in with an existing Unity ID or create a new account
+3. Select the Personal plan (free for students and individuals earning less than $100k annually)
+
+### 3. Install Unity Editor
+
+1. In Unity Hub, go to the "Installs" tab
+2. Click "Add" to install a new version of Unity
+3. Select Unity 2022.3 LTS (Long Term Support) or later - this is recommended for stability
+4. Choose the following modules during installation:
+   - Android Build Support (if targeting Android)
+   - iOS Build Support (if targeting iOS)
+   - Linux Build Support (if targeting Linux)
+   - Visual Studio Community (recommended IDE integration)
+
+### 4. Install Isaac Unity Plugin
+
+For integration with NVIDIA Isaac, install the Isaac Unity Plugin:
+
+1. In Unity Hub, go to the "Projects" tab
+2. Click "New Project" and create a basic 3D project
+3. In the Unity Editor, go to Window → Package Manager
+4. Click the "+" button and select "Add package from git URL..."
+5. Enter the Isaac Unity Plugin repository URL (available through NVIDIA Developer Portal)
+
+## Unity with Isaac Integration
+
+### NVIDIA Isaac Unity Plugin Setup
+
+To use Unity with NVIDIA Isaac for robotics simulation:
+
+1. Download the Isaac Unity Plugin from the [NVIDIA Developer Portal](https://developer.nvidia.com/isaac)
+2. Import the package into your Unity project:
+   - In Unity Editor, go to Assets → Import Package → Custom Package
+   - Select the downloaded Isaac Unity Plugin package
+   - Import all assets
+
+### Setting Up Isaac Robotics Components
+
+After installing the Isaac Unity Plugin:
+
+1. Create a new Unity scene
+2. Add Isaac-specific components to your scene:
+   - Isaac ROS Bridge component for ROS 2 communication
+   - Isaac-specific sensors (LiDAR, cameras, IMUs)
+   - Physics materials configured for robotics simulation
+
+## Verification Steps
+
+After installation, verify that Unity is working properly:
+
+### 1. Test Unity Installation
+
+1. Launch Unity Hub
+2. Create a new 3D project
+3. Verify that the editor opens without errors
+4. Test basic functionality (scene creation, object manipulation, etc.)
+
+### 2. Test Isaac Integration (if installed)
+
+1. Create a new scene in Unity
+2. Add an Isaac ROS Bridge component to the scene
+3. Verify that Isaac-specific assets are available in the Package Manager
+4. Test communication with ROS 2 nodes if available
+
+### 3. Performance Test
+
+Create a simple scene with basic objects to verify performance:
+
+1. Create a new 3D project
+2. Add a few primitive objects (cube, sphere, plane)
+3. Test scene rendering and interaction
+4. Verify that the editor runs smoothly
+
+## Unity Project Structure for Robotics
+
+### Recommended Project Organization
+
+For robotics projects in Unity, organize your project as follows:
+
+```
+Assets/
+├── Models/           # 3D models for robots and environments
+├── Materials/        # Materials and textures
+├── Scenes/           # Unity scenes for different environments
+├── Scripts/          # C# scripts for robot control and simulation
+├── Plugins/          # Third-party plugins (Isaac, ROS, etc.)
+├── Prefabs/          # Reusable robot and environment prefabs
+└── Resources/        # Additional assets and configurations
+```
+
+### Creating Robot Prefabs
+
+To create reusable robot models:
+
+1. Import your robot model (FBX, OBJ, or other supported formats)
+2. Add appropriate colliders for physics simulation
+3. Set up joints and constraints for articulation
+4. Create a prefab by dragging the model to the Prefabs folder
+
+## Unity for Robotics Best Practices
+
+### Performance Optimization
+
+For optimal performance in robotics simulation:
+
+1. **Level of Detail (LOD)**: Use LOD groups for complex models
+2. **Occlusion Culling**: Enable occlusion culling for large environments
+3. **Lighting**: Use baked lighting for static objects
+4. **Batching**: Enable static and dynamic batching
+5. **Shader Complexity**: Use simpler shaders when possible
+
+### Physics Configuration
+
+For accurate robotics simulation:
+
+1. Set appropriate physics time steps (typically 0.02 or smaller)
+2. Configure collision detection settings appropriately
+3. Use proper mass and drag values for realistic physics
+4. Consider using PhysX settings optimized for robotics
+
+## Troubleshooting
+
+### Common Issues:
+
+**Unity Hub won't install:**
+- Check system requirements
+- Ensure you have administrative privileges
+- Disable antivirus temporarily during installation
+
+**Unity Editor crashes:**
+- Update graphics drivers
+- Check for sufficient RAM and disk space
+- Verify graphics card compatibility
+
+**Isaac Plugin won't import:**
+- Ensure you have the correct version of Unity
+- Check NVIDIA Isaac license requirements
+- Verify internet connection during import
+
+**Performance issues:**
+- Reduce scene complexity
+- Lower graphics quality settings
+- Close other applications to free up resources
+
+### Graphics Settings
+
+If experiencing rendering issues:
+
+1. Go to Edit → Project Settings → Graphics
+2. Try using a different render pipeline (Built-in, URP, or HDRP)
+3. Adjust quality settings in Edit → Project Settings → Quality
+
+## Unity Resources for Robotics
+
+### Useful Packages for Robotics:
+
+- **Unity Robotics Hub**: Centralized access to robotics tools
+- **Unity ML-Agents**: For reinforcement learning applications
+- **Unity Perception**: For synthetic data generation
+- **ROS#**: For ROS communication (alternative to Isaac)
+
+### Documentation and Learning:
+
+- [Unity Manual](https://docs.unity3d.com/Manual/index.html)
+- [Unity Scripting API](https://docs.unity3d.com/ScriptReference/)
+- [Unity Robotics Resources](https://unity.com/products/unity-robotics)
+- [NVIDIA Isaac Documentation](https://docs.nvidia.com/isaac/)
+
+## Integration with Other Tools
+
+### ROS 2 Communication
+
+Unity can communicate with ROS 2 through:
+
+1. **Isaac ROS Bridge**: Official NVIDIA integration
+2. **ROS#**: Third-party Unity package
+3. **Custom TCP/UDP connections**: For custom implementations
+
+### Simulation Workflows
+
+Unity can be used in combination with:
+
+- Gazebo for physics validation
+- Isaac Sim for photorealistic simulation
+- Custom visualization tools
+
+## Next Steps
+
+Once Unity is installed and verified, you can proceed to:
+
+- [NVIDIA Isaac Setup](./setup-isaac) for advanced simulation integration
+- [Module 2: The Digital Twin (Gazebo & Unity)](/docs/module-2) to start learning Unity concepts
+- [Hardware Requirements](./hardware-requirements) for Unity-specific hardware needs

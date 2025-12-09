@@ -1,0 +1,68 @@
+.exerciseContainer {
+  border: 2px solid var(--education-color-accent);
+  border-radius: var(--ifm-global-radius);
+  padding: var(--ifm-spacing-vertical) var(--ifm-spacing-horizontal);
+  margin: var(--ifm-spacing-vertical) 0;
+  background-color: rgba(245, 158, 11, 0.05);
+}
+
+.exerciseTitle {
+  font-weight: bold;
+  color: var(--education-color-accent);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.exerciseContent {
+  margin-top: 0.75rem;
+}
+
+.exerciseIcon {
+  font-size: 1.2rem;
+}
+
+.difficultyBadge {
+  background-color: var(--education-color-accent);
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-left: auto;
+}
+
+.difficultyBadge.beginner {
+  background-color: var(--education-color-success);
+}
+
+.difficultyBadge.intermediate {
+  background-color: var(--education-color-warning);
+}
+
+.difficultyBadge.advanced {
+  background-color: var(--education-color-danger);
+}
+
+.timeBadge {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  .exerciseTitle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .difficultyBadge {
+    margin-left: 0;
+  }
+}

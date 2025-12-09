@@ -1,55 +1,62 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- SYNC IMPACT REPORT
+Version change: N/A -> 1.0.0
+Modified principles: None (new constitution)
+Added sections: All principles and sections
+Removed sections: None
+Templates requiring updates:
+  - .specify/templates/plan-template.md ✅ updated
+  - .specify/templates/spec-template.md ✅ updated
+  - .specify/templates/tasks-template.md ✅ updated
+  - .specify/templates/commands/*.md ✅ reviewed
+Follow-up TODOs: None
+-->
+
+# Physical AI Textbook Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Progressive Learning Structure
+Content must follow a clear, logical progression from foundational concepts to advanced topics. Each chapter builds upon previous knowledge with prerequisite checks, scaffolding complexity gradually. Students advance through concrete learning objectives that are clearly defined and measurable.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Hands-On Practice Integration
+Every concept must be accompanied by practical, executable examples and code snippets. Students learn by doing - theory without practice is incomplete. All examples must be tested and verified to work in the target environments (ROS 2, Gazebo, Unity, Isaac).
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Comprehensive Technology Coverage
+The textbook must provide thorough coverage of ROS 2, Gazebo, Unity, and NVIDIA Isaac ecosystems. Each technology receives balanced treatment with clear use cases, integration points, and comparative advantages. Cross-platform compatibility and interoperability are essential.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Student-Focused Pedagogy
+Explanations must be accessible to diverse learning backgrounds with real-world applications. Complex topics are broken into digestible segments with analogies, visual aids, and relatable examples. Language is inclusive and avoids unnecessary jargon without dumbing down concepts.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Documentation Excellence
+All content follows consistent formatting standards with proper documentation practices. Code samples include comprehensive comments, API references are clear and complete, and navigation structures support both linear and non-linear learning paths. Accessibility guidelines are strictly followed.
 
-### [PRINCIPLE_6_NAME]
+### VI. Multi-Modal Accessibility
+Content must be accessible to learners with diverse backgrounds and abilities. Multiple explanation formats (text, diagrams, code, video references), alternative text for visuals, and varied difficulty levels accommodate different learning preferences. Internationalization considerations are addressed from the start.
 
+## Technical Standards
 
-[PRINCIPLE__DESCRIPTION]
+### Docusaurus Framework Compliance
+All content is built using Docusaurus framework with standardized components and layouts. Navigation, search, and responsive design meet modern web standards. Versioned documentation supports different textbook editions and updates.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### Code Quality and Maintenance
+All code examples follow best practices for the respective platforms (ROS 2, Unity, Isaac). Code is properly commented, well-structured, and includes error handling where appropriate. Examples are regularly tested against current platform versions.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### Cross-Platform Compatibility
+Examples and tutorials work across major operating systems (Linux, Windows, macOS) where applicable. Platform-specific considerations are clearly documented with alternatives provided when needed.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### Content Review Process
+All chapters undergo peer review by domain experts before publication. Student feedback is actively solicited and incorporated into revisions. Quality gates include technical accuracy verification and pedagogical effectiveness assessment.
+
+### Incremental Publication
+Content is published incrementally with early drafts available for student feedback. Regular updates incorporate new developments in AI/robotics fields. Version control tracks all changes with clear change logs for students and instructors.
+
+### Community Engagement
+Student and instructor feedback is actively integrated into content improvements. Contributions from the community are welcomed and properly attributed. Open-source collaboration follows established contribution guidelines.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution governs all aspects of the Physical AI Textbook project. All content, code, and documentation must comply with these principles. Amendments require community discussion, expert review, and clear justification for changes. All pull requests and reviews must verify constitutional compliance.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-08 | **Last Amended**: 2025-12-08

@@ -1,0 +1,301 @@
+---
+sidebar_position: 7
+---
+
+# NVIDIA Isaac Setup Instructions
+
+This page provides detailed instructions for setting up NVIDIA Isaac, the simulation and development platform for robotics that will be used throughout the Physical AI & Humanoid Robotics textbook. Isaac provides photorealistic simulation and advanced AI capabilities for robotics development.
+
+## Prerequisites
+
+Before installing NVIDIA Isaac, ensure you have:
+
+- NVIDIA GPU with Compute Capability 6.0 or higher (GeForce GTX 1060 or better recommended)
+- Compatible NVIDIA drivers (version 470 or later)
+- CUDA 11.8 or later installed
+- cuDNN 8.6 or later installed
+- Compatible operating system (Ubuntu 22.04 LTS, Windows 10/11, or macOS 12+)
+- Adequate hardware (see [Hardware Requirements](./hardware-requirements) for Isaac-specific requirements)
+- Internet connection for downloading packages
+- At least 30GB of free disk space
+
+## System Preparation
+
+### 1. Install NVIDIA Drivers
+
+For Ubuntu:
+```bash
+sudo apt update
+sudo apt install nvidia-driver-535
+sudo reboot
+```
+
+For Windows: Download and install the latest Game Ready or Studio drivers from [NVIDIA's website](https://www.nvidia.com/drivers/)
+
+### 2. Install CUDA Toolkit
+
+Download CUDA 12.3 from [NVIDIA Developer](https://developer.nvidia.com/cuda-downloads):
+
+For Ubuntu:
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/12.3.0/local_installers/cuda_12.3.0_545.23.06_linux.run
+sudo sh cuda_12.3.0_545.23.06_linux.run
+```
+
+Follow the installer prompts, ensuring to install the CUDA Toolkit while potentially skipping the driver installation if you already have compatible drivers.
+
+### 3. Install cuDNN
+
+Download cuDNN from [NVIDIA Developer](https://developer.nvidia.com/cudnn) (requires free developer account):
+
+For Ubuntu:
+```bash
+sudo dpkg -i libcudnn8_*.deb
+sudo dpkg -i libcudnn8-dev_*.deb
+```
+
+## Isaac Sim Installation
+
+### Option 1: Isaac Sim Omniverse Extension (Recommended)
+
+Isaac Sim is available as an extension in NVIDIA Omniverse:
+
+1. Download and install [NVIDIA Omniverse](https://www.nvidia.com/en-us/omniverse/)
+2. Launch Omniverse Create or Isaac Sim directly
+3. In the Extension Manager, search for "Isaac Sim" and install
+4. Restart Omniverse to complete the installation
+
+### Option 2: Standalone Isaac Sim
+
+1. Go to [NVIDIA Isaac Downloads](https://developer.nvidia.com/isaac-sim)
+2. Download Isaac Sim for your platform
+3. Extract and run the installation script
+
+For Ubuntu:
+```bash
+# Extract the downloaded package
+tar -xzf isaac-sim-*.tar.gz
+cd isaac-sim-*
+./install.sh
+```
+
+### Option 3: Isaac Sim via Docker (Alternative)
+
+For containerized deployment:
+
+```bash
+# Pull the Isaac Sim Docker image
+docker pull nvcr.io/nvidia/isaac-sim:latest
+
+# Run Isaac Sim container
+docker run --gpus all -it --rm --network=host \
+  --env "DISPLAY" \
+  --env "QT_X11_NO_MITSHM=1" \
+  --volume "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+  --volume "/home/$USER:/workspace:rw" \
+  --volume "/dev/shm:/dev/shm" \
+  --privileged \
+  --pid=host \
+  nvcr.io/nvidia/isaac-sim:latest
+```
+
+## Isaac ROS Integration
+
+### Install Isaac ROS Packages
+
+To integrate Isaac with ROS 2:
+
+```bash
+# Install Isaac ROS dependencies
+sudo apt update
+sudo apt install ros-humble-isaac-ros-gem ros-humble-isaac-ros-message-converter
+sudo apt install ros-humble-isaac-ros-visual- slam ros-humble-isaac-ros-people-segmentation
+sudo apt install ros-humble-isaac-ros-ros-bridge
+```
+
+### Verify Isaac ROS Installation
+
+Test the Isaac ROS bridge:
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 launch isaac_ros_ros_bridge isaac_ros_bridge.launch.py
+```
+
+## Verification Steps
+
+After installation, verify that Isaac is working properly:
+
+### 1. Test Isaac Sim Installation
+
+Launch Isaac Sim:
+
+```bash
+# If using Omniverse
+omniverse://exts/omni.isaac.sim.python/isaac-sim.py
+
+# Or if installed standalone
+cd ~/isaac-sim
+./isaac-sim.sh
+```
+
+### 2. Test Basic Simulation
+
+1. Launch Isaac Sim
+2. Load a basic scene (e.g., a simple robot in an environment)
+3. Verify that the physics simulation runs correctly
+4. Check that the rendering appears properly with lighting and textures
+
+### 3. Test ROS Integration
+
+If Isaac ROS packages are installed:
+
+```bash
+# Terminal 1: Launch Isaac Sim with ROS bridge
+source /opt/ros/humble/setup.bash
+ros2 launch isaac_ros_ros_bridge isaac_ros_bridge.launch.py
+
+# Terminal 2: Test communication
+source /opt/ros/humble/setup.bash
+ros2 topic list
+```
+
+You should see topics from Isaac Sim in the ROS 2 system.
+
+## Isaac Sim Configuration
+
+### Basic Configuration
+
+1. Launch Isaac Sim
+2. Go to Window → Isaac Examples → Basic RL Scene
+3. Load the example scene to verify functionality
+4. Adjust settings in Window → Settings → Isaac Sim
+
+### Performance Settings
+
+For optimal performance:
+
+1. Go to Window → Settings → Isaac Sim
+2. Adjust rendering quality based on your hardware
+3. Configure physics substeps for simulation accuracy
+4. Set appropriate viewport resolution
+
+## Isaac ROS Common Packages
+
+The following Isaac ROS packages will be used throughout the textbook:
+
+- `isaac_ros_ros_bridge`: Core ROS bridge functionality
+- `isaac_ros_visual_slam`: Visual SLAM algorithms
+- `isaac_ros_pose_graph`: Pose graph optimization
+- `isaac_ros_people_segmentation`: Human detection and segmentation
+- `isaac_ros_point_cloud_interfaces`: Point cloud processing
+- `isaac_ros_gemm`: GPU-accelerated matrix operations
+- `isaac_ros_message_filters`: Message synchronization
+
+Install additional packages as needed:
+
+```bash
+sudo apt install ros-humble-isaac-ros-<package-name>
+```
+
+## Creating Custom Environments
+
+### Environment Setup
+
+To create custom environments in Isaac Sim:
+
+1. Create a new stage in Isaac Sim
+2. Add assets from the Content Browser
+3. Configure lighting and materials
+4. Set up sensors (LiDAR, cameras, IMUs)
+5. Test the environment for physics accuracy
+
+### Robot Integration
+
+To integrate custom robots:
+
+1. Import robot URDF or USD files
+2. Configure joint properties and actuators
+3. Add sensors to the robot model
+4. Test robot kinematics and dynamics
+5. Validate sensor outputs
+
+## Troubleshooting
+
+### Common Issues:
+
+**Isaac Sim won't launch:**
+- Check that your GPU meets the minimum requirements
+- Verify NVIDIA drivers are properly installed
+- Ensure CUDA is correctly installed and accessible
+- Check for sufficient disk space and memory
+
+**CUDA errors during launch:**
+- Verify CUDA version compatibility with Isaac Sim
+- Check that cuDNN is properly installed
+- Ensure your GPU has sufficient VRAM
+- Try running with a different CUDA version if available
+
+**ROS bridge not connecting:**
+- Verify ROS 2 Humble is installed and sourced
+- Check that Isaac ROS packages are installed
+- Ensure both systems use the same DDS implementation
+- Verify network connectivity if running on different machines
+
+**Poor performance:**
+- Lower rendering quality settings
+- Reduce the complexity of your environment
+- Check that your GPU has sufficient VRAM
+- Close other GPU-intensive applications
+
+### Environment Variables
+
+Set these environment variables for optimal Isaac Sim performance:
+
+```bash
+export ISAAC_SIM_PATH=~/isaac-sim
+export NVIDIA_DISABLE_REQUIRE_CUDA=1  # If needed for compatibility
+export OMNI_LOG_LEVEL=warning  # Reduce logging verbosity
+```
+
+## Isaac Sim Best Practices
+
+### Simulation Accuracy
+
+1. Use appropriate physics parameters for your robot
+2. Configure realistic sensor noise models
+3. Validate simulation results against real-world data
+4. Use multiple simulation scenarios for testing
+
+### Performance Optimization
+
+1. Use proxy representations during scene setup
+2. Optimize asset complexity for your target frame rate
+3. Use level of detail (LOD) for complex models
+4. Configure appropriate physics substeps
+
+## Integration with Other Tools
+
+### Unity Integration
+
+Isaac Sim can export scenes to Unity:
+
+1. Export scenes in USD format from Isaac Sim
+2. Import USD files into Unity using the USD Package
+3. Configure materials and lighting appropriately
+
+### Gazebo Comparison
+
+While Isaac Sim provides photorealistic rendering, consider using Gazebo for:
+
+- Faster physics-only simulation
+- Simpler robot models
+- Deterministic testing environments
+
+## Next Steps
+
+Once Isaac is installed and verified, you can proceed to:
+
+- [Module 3: The AI-Robot Brain (NVIDIA Isaac)](/docs/module-3) to start learning Isaac concepts
+- [Troubleshooting Guide](./troubleshooting) for common robotics development issues
+- [Hardware Requirements](./hardware-requirements) for Isaac-specific hardware needs

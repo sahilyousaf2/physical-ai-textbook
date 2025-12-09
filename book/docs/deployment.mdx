@@ -1,0 +1,35 @@
+# Vercel Deployment Notes
+
+## Configuration Updates Needed
+
+Before deploying to Vercel, you should update the following in `docusaurus.config.ts`:
+
+1. Update the `url` field to your actual domain:
+   ```ts
+   url: 'https://your-domain.vercel.app', // Replace with your actual domain
+   ```
+
+2. The `baseUrl` is already correctly set to `'/'` for Vercel deployment.
+
+## GitHub Repository Setup
+
+To deploy to Vercel:
+
+1. Push this code to a GitHub repository
+2. Connect your GitHub repository to Vercel
+3. Set the root directory to `book/` during the import process
+4. Vercel will automatically use the build settings from `vercel.json`
+
+## Environment Variables (if needed)
+
+If you use Algolia search, update these in your Vercel project settings:
+- `ALGOLIA_APP_ID`
+- `ALGOLIA_SEARCH_API_KEY`
+- `ALGOLIA_ADMIN_API_KEY`
+
+## Build Command
+
+Vercel will automatically run:
+- Build command: `npm run build`
+- Output directory: `build`
+- Root directory: `book/` (important to set this in Vercel dashboard)

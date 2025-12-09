@@ -1,0 +1,229 @@
+---
+sidebar_position: 2
+---
+
+# Prerequisites and Setup Instructions
+
+This page provides comprehensive instructions for setting up your development environment to follow along with the Physical AI & Humanoid Robotics textbook. Follow these steps to configure your system with all required tools and dependencies.
+
+## System Requirements
+
+Before starting the setup process, ensure your system meets the following requirements:
+
+### Minimum System Specifications
+- **Operating System**: Ubuntu 22.04 LTS, Windows 10/11 (with WSL2), or macOS 12+
+- **CPU**: Multi-core processor (Intel i5 or equivalent AMD)
+- **RAM**: 8 GB minimum, 16 GB recommended
+- **Storage**: 20 GB available space
+- **Internet**: Stable connection for downloading packages
+
+### Recommended System Specifications
+- **CPU**: Intel i7 or equivalent AMD
+- **RAM**: 16 GB or more
+- **GPU**: NVIDIA GPU with CUDA support (for Isaac Sim)
+- **Storage**: SSD with 50 GB available space
+
+## Software Prerequisites
+
+### 1. Install Git
+Git is required for version control and downloading repositories.
+
+**Ubuntu:**
+```bash
+sudo apt update
+sudo apt install git
+```
+
+**Windows (with Git Bash):**
+Download from [https://git-scm.com/](https://git-scm.com/)
+
+**macOS:**
+```bash
+xcode-select --install
+```
+
+### 2. Install Python and pip
+Python 3.8 or higher is required for ROS 2 and other tools.
+
+**Ubuntu:**
+```bash
+sudo apt install python3 python3-pip python3-venv
+```
+
+**Windows:**
+Download from [https://www.python.org/downloads/](https://www.python.org/downloads/)
+
+**macOS:**
+```bash
+brew install python3
+```
+
+### 3. Install Docker (Recommended)
+Docker is useful for creating consistent development environments.
+
+**Ubuntu:**
+```bash
+sudo apt install docker.io
+sudo usermod -aG docker $USER
+```
+
+**Windows/macOS:**
+Download Docker Desktop from [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
+
+## ROS 2 Installation
+
+### Ubuntu Installation (Recommended)
+We recommend using ROS 2 Humble Hawksbill, which is an LTS version.
+
+1. **Set locale:**
+```bash
+locale  # check for UTF-8
+sudo locale-gen en_US.UTF-8
+```
+
+2. **Setup sources:**
+```bash
+sudo apt update && sudo apt install -y curl gnupg lsb-release
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+```
+
+3. **Install ROS 2:**
+```bash
+sudo apt update
+sudo apt install ros-humble-desktop
+sudo apt install python3-rosdep2
+```
+
+4. **Environment setup:**
+```bash
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+5. **Install additional tools:**
+```bash
+sudo apt install python3-colcon-common-extensions
+sudo apt install python3-rosinstall
+```
+
+### Windows Installation (Alternative)
+For Windows users, we recommend using WSL2 with Ubuntu:
+
+1. Install WSL2 following [Microsoft's guide](https://docs.microsoft.com/en-us/windows/wsl/install)
+2. Install Ubuntu 22.04 from the Microsoft Store
+3. Follow the Ubuntu installation steps above within WSL2
+
+## Gazebo Installation
+
+### Ubuntu:
+```bash
+sudo apt install ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros2-control
+sudo apt install gazebo
+```
+
+### Alternative Installation:
+For the latest Gazebo Garden:
+```bash
+curl -sSL http://get.gazebosim.org | sh
+```
+
+## Unity Installation
+
+1. Download Unity Hub from [https://unity.com/download](https://unity.com/download)
+2. Install Unity Hub and create an account
+3. Install Unity 2022.3 LTS or later
+4. For Isaac Sim integration, install the Isaac ROS Unity Plugin
+
+## NVIDIA Isaac Sim Setup
+
+### Prerequisites:
+- NVIDIA GPU with CUDA support
+- NVIDIA drivers (version 470 or later)
+- CUDA 11.8 or later
+- cuDNN 8.6 or later
+
+### Installation:
+1. Install NVIDIA drivers:
+```bash
+sudo apt install nvidia-driver-535
+```
+
+2. Install CUDA:
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/12.3.0/local_installers/cuda_12.3.0_545.23.06_linux.run
+sudo sh cuda_12.3.0_545.23.06_linux.run
+```
+
+3. Download Isaac Sim from [NVIDIA Developer Portal](https://developer.nvidia.com/isaac-sim)
+4. Follow the installation guide for your platform
+
+## Additional Tools
+
+### Visual Studio Code
+Recommended for development:
+```bash
+sudo snap install code --classic
+```
+
+Install ROS extensions:
+- ROS
+- C/C++
+- Python
+- Unity Debug
+
+### Additional Python Libraries
+```bash
+pip3 install numpy matplotlib scipy jupyter
+```
+
+## Verification Steps
+
+After completing the installation, verify your setup:
+
+1. **Test ROS 2:**
+```bash
+source /opt/ros/humble/setup.bash
+ros2 run demo_nodes_cpp talker
+```
+
+In another terminal:
+```bash
+source /opt/ros/humble/setup.bash
+ros2 run demo_nodes_py listener
+```
+
+2. **Test Gazebo:**
+```bash
+gazebo
+```
+
+3. **Test Python:**
+```bash
+python3 -c "import rclpy; print('rclpy imported successfully')"
+```
+
+## Troubleshooting
+
+### Common Issues:
+
+**ROS 2 command not found:**
+- Ensure you sourced the setup.bash file
+- Check that ROS 2 is properly installed: `ls /opt/ros/humble/`
+
+**Gazebo crashes on startup:**
+- Check graphics drivers are properly installed
+- Try running with software rendering: `gazebo --software-rendering`
+
+**Python import errors:**
+- Ensure Python 3.8+ is installed
+- Check that ROS packages are properly sourced
+
+### Getting Help:
+- ROS Answers: [https://answers.ros.org/](https://answers.ros.org/)
+- Gazebo Answers: [https://community.gazebosim.org/](https://community.gazebosim.org/)
+- Unity Documentation: [https://docs.unity3d.com/](https://docs.unity3d.com/)
+
+## Next Steps
+
+Once you've completed the setup, you can proceed to [Module 1: The Robotic Nervous System (ROS 2)](/docs/module-1).

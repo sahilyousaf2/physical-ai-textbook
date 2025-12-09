@@ -1,0 +1,203 @@
+---
+sidebar_position: 2
+---
+
+# Week 9: VSLAM and Navigation
+
+This week, we'll explore Visual SLAM (Simultaneous Localization and Mapping) and navigation systems for robotics. We'll cover how robots can understand their environment visually and navigate through it autonomously using the Nav2 stack.
+
+## Learning Objectives
+
+After completing this week, you will be able to:
+
+- Implement Visual SLAM systems for robot localization
+- Configure the Nav2 navigation stack for robot path planning
+- Plan paths and implement obstacle avoidance
+- Integrate perception and navigation systems
+- Evaluate navigation performance in various environments
+
+## Introduction to VSLAM
+
+Visual SLAM (Simultaneous Localization and Mapping) is a critical technology that allows robots to create maps of their environment while simultaneously determining their position within that map, using only visual sensors like cameras.
+
+### Key Concepts in VSLAM
+
+- **Feature detection**: Identifying distinctive points in images
+- **Feature matching**: Finding corresponding features across frames
+- **Pose estimation**: Determining camera position and orientation
+- **Map building**: Creating a representation of the environment
+- **Loop closure**: Recognizing previously visited locations
+
+### VSLAM vs. Other SLAM Approaches
+
+- **LiDAR SLAM**: Uses laser sensors, more accurate but expensive
+- **Visual SLAM**: Uses cameras, cost-effective but sensitive to lighting
+- **Visual-Inertial SLAM**: Combines cameras with IMUs for better robustness
+- **Multi-sensor fusion**: Combines multiple sensor types for optimal performance
+
+## Popular VSLAM Algorithms
+
+### ORB-SLAM
+
+ORB-SLAM is a popular open-source Visual SLAM system that uses Oriented FAST and Rotated BRIEF features:
+
+- Real-time performance
+- Supports monocular, stereo, and RGB-D cameras
+- Loop closure and relocalization capabilities
+- Map reuse functionality
+
+### RTAB-Map
+
+RTAB-Map (Real-Time Appearance-Based Mapping) focuses on appearance-based mapping:
+
+- Appearance-based loop closure detection
+- Multi-session mapping
+- Large-scale environment handling
+- Integration with ROS and ROS 2
+
+## The Nav2 Navigation Stack
+
+Nav2 is the next-generation navigation stack for ROS 2, providing a complete solution for robot navigation:
+
+### Core Components
+
+1. **Global Planner**: Creates optimal path from start to goal
+2. **Local Planner**: Executes path while avoiding obstacles
+3. **Controller**: Translates navigation commands to robot motion
+4. **Recovery Behaviors**: Handles navigation failures
+
+### Key Features
+
+- **Behavior Trees**: Flexible task execution framework
+- **Plugin Architecture**: Easy to customize and extend
+- **Safety Systems**: Collision avoidance and emergency stops
+- **Dynamic Reconfiguration**: Runtime parameter adjustment
+
+## Implementation with Isaac ROS
+
+NVIDIA Isaac ROS provides optimized implementations for perception and navigation:
+
+### Isaac ROS Visual SLAM
+
+- GPU-accelerated processing
+- Optimized for NVIDIA hardware
+- Integration with Isaac Sim for training
+- Real-time performance capabilities
+
+### Isaac ROS Navigation
+
+- Optimized navigation algorithms
+- Hardware acceleration
+- Integration with other Isaac ROS packages
+- Support for complex robot morphologies
+
+## Path Planning Algorithms
+
+### Global Path Planning
+
+- **A* Algorithm**: Optimal path finding with heuristic
+- **Dijkstra's Algorithm**: Guaranteed optimal but slower
+- **RRT (Rapidly-exploring Random Trees)**: Good for complex environments
+- **PRM (Probabilistic Roadmap)**: Pre-computed paths for multiple queries
+
+### Local Path Planning
+
+- **DWA (Dynamic Window Approach)**: Considers robot dynamics
+- **Teb (Timed Elastic Band)**: Smooth trajectory optimization
+- **MPC (Model Predictive Control)**: Predictive control approach
+
+## Obstacle Avoidance
+
+### Types of Obstacles
+
+- **Static obstacles**: Fixed environmental obstacles
+- **Dynamic obstacles**: Moving objects in the environment
+- **Uncertain obstacles**: Partially observed or predicted obstacles
+
+### Avoidance Strategies
+
+- **Reactive**: Immediate response to detected obstacles
+- **Predictive**: Anticipates obstacle movement
+- **Planning-based**: Replans path to avoid obstacles
+
+## Practical Implementation
+
+### Setting up Nav2
+
+Configuration files for Nav2 include:
+
+```yaml
+# Global planner configuration
+global_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 1.0
+  static_map: true
+
+# Local planner configuration
+local_costmap:
+  global_frame: odom
+  robot_base_frame: base_link
+  update_frequency: 5.0
+  publish_frequency: 2.0
+```
+
+### Launching Navigation
+
+```bash
+# Launch navigation stack
+ros2 launch nav2_bringup navigation_launch.py
+
+# Send navigation goal
+ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose ...
+```
+
+## Performance Evaluation
+
+### Metrics for Navigation
+
+- **Success rate**: Percentage of successful navigation attempts
+- **Path efficiency**: Ratio of optimal path to actual path
+- **Time to goal**: Time taken to reach destination
+- **Safety metrics**: Collision avoidance performance
+
+### Testing Environments
+
+- **Simulation**: Testing in Gazebo or Isaac Sim
+- **Controlled environments**: Known, structured spaces
+- **Real-world testing**: Unstructured, dynamic environments
+
+import Exercise from '@site/src/components/Exercise';
+
+<!-- Instructor Notes:
+- Emphasize the relationship between perception and navigation
+- Demonstrate the difference between global and local planning
+- Show examples of navigation in different environments
+- Provide hands-on experience with Nav2 configuration
+- Explain the importance of safety systems
+-->
+
+<Exercise
+  title="Implementing VSLAM and Navigation"
+  difficulty="advanced"
+  estimatedTime={90}
+  type="practical"
+>
+
+Follow these steps to implement a basic VSLAM and navigation system:
+
+1. Set up a camera-based SLAM system (e.g., using ORB-SLAM or RTAB-Map)
+2. Create a map of a simple environment
+3. Configure the Nav2 stack with appropriate parameters
+4. Test path planning and obstacle avoidance
+5. Evaluate the system's performance in different scenarios
+
+</Exercise>
+
+## Summary
+
+This week covered Visual SLAM and navigation systems, essential components for autonomous robot operation. We explored both the theoretical foundations and practical implementation of these systems, including the Nav2 stack and Isaac ROS implementations. Understanding these concepts is crucial for developing robots that can operate autonomously in complex environments.
+
+## Next Steps
+
+[Continue to Week 10: Bipedal Movement](../week-10/index)

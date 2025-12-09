@@ -1,0 +1,251 @@
+---
+sidebar_position: 5
+---
+
+# Gazebo Setup Instructions
+
+This page provides detailed instructions for setting up Gazebo, the physics simulation engine that will be used throughout the Physical AI & Humanoid Robotics textbook. Gazebo provides realistic physics simulation for testing robotics algorithms before deployment on real hardware.
+
+## Prerequisites
+
+Before installing Gazebo, ensure you have:
+
+- ROS 2 Humble Hawksbill installed (see [ROS 2 Setup](./setup-ros2))
+- Compatible operating system (Ubuntu 22.04 LTS recommended)
+- Adequate hardware (see [Hardware Requirements](./hardware-requirements))
+- Internet connection for downloading packages
+
+## Ubuntu Installation
+
+### Option 1: Install with ROS 2 Packages (Recommended)
+
+If you installed ROS 2 using the desktop package, you can install Gazebo integration packages:
+
+```bash
+sudo apt update
+sudo apt install ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros2-control
+sudo apt install ros-humble-gazebo-dev
+```
+
+### Option 2: Install Gazebo Standalone
+
+For the latest version of Gazebo, you can install it separately:
+
+```bash
+curl -sSL http://get.gazebosim.org | sh
+```
+
+### Option 3: Install Gazebo Garden (Latest Stable)
+
+For the latest stable version of Gazebo Garden:
+
+```bash
+sudo apt update
+sudo apt install wget
+wget https://packages.osrfoundation.org/gazebo.gpg -O /tmp/gazebo.gpg
+sudo cp /tmp/gazebo.gpg /usr/share/keyrings/gazebo-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/gazebo-archive-keyring.gpg] http://packages.osrfoundation.org/garden/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/gazebo.list > /dev/null
+sudo apt update
+sudo apt install gz-garden
+```
+
+## Verification Steps
+
+After installation, verify that Gazebo is working properly:
+
+### 1. Test Gazebo Installation
+
+Open a terminal and run:
+
+```bash
+gz sim --version
+```
+
+Or if using the older gazebo command:
+
+```bash
+gazebo --version
+```
+
+### 2. Launch Gazebo Simulator
+
+Test the basic functionality:
+
+```bash
+gz sim
+```
+
+Or with the older command:
+
+```bash
+gazebo
+```
+
+A Gazebo window should appear with a default environment.
+
+### 3. Test ROS 2 Integration
+
+In one terminal, start a ROS 2 node:
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 run demo_nodes_cpp talker
+```
+
+In another terminal, start Gazebo with ROS 2 bridge:
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 launch gazebo_ros gazebo.launch.py
+```
+
+## Gazebo with ROS 2 Integration
+
+### Launch Gazebo with ROS 2 Bridge
+
+To use Gazebo with ROS 2, launch it with the ROS bridge:
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 launch gazebo_ros gazebo.launch.py
+```
+
+### Common Launch Parameters
+
+You can customize the Gazebo launch with various parameters:
+
+```bash
+# Launch with a specific world file
+ros2 launch gazebo_ros gazebo.launch.py world:=/path/to/world.world
+
+# Launch without GUI (for headless operation)
+ros2 launch gazebo_ros gazebo.launch.py gui:=false
+
+# Launch with verbose output
+ros2 launch gazebo_ros gazebo.launch.py verbose:=true
+```
+
+## Creating Robot Models for Gazebo
+
+### URDF Integration
+
+Gazebo works with URDF (Unified Robot Description Format) files. To create a robot model that works with Gazebo:
+
+1. Create a URDF file describing your robot
+2. Add Gazebo-specific tags for physics and sensors
+3. Use the robot_state_publisher to publish the robot description
+
+Example launch file:
+
+```xml
+<launch>
+  <arg name="model" default="$(find-pkg-share my_robot_description)/urdf/my_robot.urdf"/>
+  <param name="robot_description" value="$(var model)"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" exec="robot_state_publisher"/>
+  <node name="spawn_robot" pkg="gazebo_ros" exec="spawn_entity.py" args="-entity my_robot -topic robot_description"/>
+
+  <include file="$(find-pkg-share gazebo_ros)/launch/gazebo.launch.py"/>
+</launch>
+```
+
+## Common Gazebo Packages for This Course
+
+The following Gazebo packages will be used throughout the textbook:
+
+- `gazebo_ros`: Core ROS 2 plugins for Gazebo
+- `gazebo_plugins`: Additional Gazebo plugins
+- `gazebo_dev`: Development headers and tools
+- `gazebo_msgs`: Gazebo-specific ROS 2 messages
+- `ros_gz_bridge`: Bridge between ROS 2 and Gazebo Garden
+
+Install additional packages as needed:
+
+```bash
+sudo apt install ros-humble-<package-name>
+```
+
+## Performance Optimization
+
+For optimal Gazebo performance:
+
+1. **Graphics Drivers**: Ensure you have up-to-date graphics drivers
+2. **OpenGL Support**: Gazebo requires OpenGL 3.3 or higher
+3. **CPU Cores**: More cores allow for faster physics simulation
+4. **RAM**: At least 8GB recommended for complex simulations
+5. **GPU**: Dedicated GPU with OpenGL support for rendering
+
+### Running Gazebo with Software Rendering
+
+If you have graphics issues, try software rendering:
+
+```bash
+gazebo --software-rendering
+```
+
+## Troubleshooting
+
+### Common Issues:
+
+**Gazebo crashes on startup:**
+- Check graphics drivers are properly installed
+- Try running with software rendering: `gazebo --software-rendering`
+- Ensure sufficient RAM and CPU resources are available
+
+**ROS 2 nodes can't communicate with Gazebo:**
+- Verify ROS 2 environment is sourced
+- Check that Gazebo ROS plugins are installed
+- Ensure both systems use the same DDS implementation
+
+**Slow simulation:**
+- Reduce the complexity of your world file
+- Close other applications to free up resources
+- Check the real-time factor in Gazebo's statistics
+
+**Missing models:**
+- Install additional Gazebo models: `sudo apt install gazebo-models`
+- Check that model paths are correctly configured
+
+### Environment Variables
+
+You can set Gazebo environment variables to customize behavior:
+
+```bash
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/my_models
+export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH:~/my_worlds
+export GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:~/my_plugins
+```
+
+## Creating Custom Worlds
+
+Gazebo uses SDF (Simulation Description Format) files for world descriptions. To create a custom world:
+
+1. Create an SDF file with your environment
+2. Place it in your project's worlds directory
+3. Launch Gazebo with your world file
+
+Example world file structure:
+
+```xml
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="my_world">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- Add your custom models here -->
+  </world>
+</sdf>
+```
+
+## Next Steps
+
+Once Gazebo is installed and verified, you can proceed to:
+
+- [Unity Setup](./setup-unity) for high-fidelity rendering
+- [NVIDIA Isaac Setup](./setup-isaac) for advanced simulation
+- [Module 2: The Digital Twin (Gazebo & Unity)](/docs/module-2) to start learning simulation concepts
+- [Hardware Requirements](./hardware-requirements) for simulation-specific hardware needs

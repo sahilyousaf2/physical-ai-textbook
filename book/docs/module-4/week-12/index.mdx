@@ -1,0 +1,324 @@
+---
+sidebar_position: 2
+---
+
+# Week 12: LLM Cognitive Planning
+
+This week, we'll explore how to integrate Large Language Models (LLMs) into robotics systems for cognitive planning. We'll cover how LLMs can decompose complex tasks, reason about the environment, and generate executable plans for robots.
+
+## Learning Objectives
+
+After completing this week, you will be able to:
+
+- Integrate Large Language Models with robot control systems
+- Implement cognitive planning for complex robot tasks
+- Decompose high-level goals into executable robot actions
+- Use LLMs for reasoning and decision making in robotics
+- Evaluate the effectiveness of LLM-driven robot planning
+
+## Introduction to LLM-Driven Robotics
+
+Large Language Models represent a paradigm shift in robotics, enabling robots to understand high-level natural language commands and autonomously generate plans to achieve complex goals. This approach bridges the gap between human communication and robot execution.
+
+### Cognitive Capabilities of LLMs
+
+- **Task decomposition**: Breaking complex goals into simpler steps
+- **World modeling**: Understanding and reasoning about the environment
+- **Common sense reasoning**: Applying general knowledge to specific situations
+- **Context awareness**: Understanding commands in environmental context
+- **Learning from interaction**: Improving performance through experience
+
+### Benefits of LLM Integration
+
+- **Natural interfaces**: Communicate with robots using natural language
+- **Flexibility**: Handle novel situations without pre-programming
+- **Abstraction**: Focus on high-level goals rather than low-level details
+- **Generalization**: Apply learned knowledge to new scenarios
+- **Explanation**: LLMs can explain their decision-making process
+
+## LLM Integration Architecture
+
+### Planning Pipeline
+
+The typical LLM-robotics pipeline involves:
+
+1. **Goal specification**: Receive high-level task description
+2. **Task analysis**: LLM analyzes requirements and constraints
+3. **Plan generation**: Create high-level action sequence
+4. **Plan refinement**: Break down actions into executable steps
+5. **Execution monitoring**: Track progress and handle exceptions
+6. **Feedback integration**: Learn from execution outcomes
+
+### System Components
+
+- **LLM interface**: Communication layer with the language model
+- **World model**: Representation of the robot's environment
+- **Action library**: Available robot capabilities
+- **Execution engine**: Low-level command execution
+- **Feedback system**: Monitor and report execution status
+
+## Task Decomposition
+
+### Hierarchical Planning
+
+LLMs excel at breaking down complex tasks into manageable subtasks:
+
+```python
+def decompose_task(llm, goal_description):
+    prompt = f"""
+    Decompose the following task into simpler subtasks:
+    Task: {goal_description}
+
+    Provide a list of subtasks in logical order.
+    Each subtask should be specific and actionable.
+    """
+
+    response = llm.generate(prompt)
+    return parse_subtasks(response)
+```
+
+### Example Decomposition
+
+For a task like "Set the table for dinner":
+
+1. **Fetch items**: Get plates, utensils, and napkins
+2. **Navigate**: Move to dining area
+3. **Place items**: Position items at each setting
+4. **Verify**: Check that all items are correctly placed
+
+## World Modeling and Context
+
+### Environmental Understanding
+
+LLMs can maintain and update world models:
+
+- **Object tracking**: Remember locations of important objects
+- **State changes**: Track changes in the environment
+- **Spatial reasoning**: Understand relationships between objects
+- **Temporal reasoning**: Consider sequence and timing of actions
+
+### Context Integration
+
+LLMs can incorporate various contextual information:
+
+```python
+def generate_context_prompt(robot_state, environment, goal):
+    context = f"""
+    Robot capabilities: {robot_state.capabilities}
+    Current location: {robot_state.location}
+    Available objects: {environment.objects}
+    Obstacles: {environment.obstacles}
+    Goal: {goal}
+
+    Generate a plan to achieve the goal considering the above context.
+    """
+    return context
+```
+
+## Reasoning and Decision Making
+
+### Commonsense Reasoning
+
+LLMs can apply general knowledge to specific situations:
+
+- **Physical constraints**: Understanding object properties
+- **Social norms**: Following appropriate behaviors
+- **Safety considerations**: Avoiding dangerous situations
+- **Efficiency**: Choosing optimal approaches
+
+### Handling Uncertainty
+
+LLMs can reason about uncertain information:
+
+- **Incomplete information**: Making decisions with partial knowledge
+- **Probabilistic outcomes**: Considering likely results of actions
+- **Risk assessment**: Evaluating potential consequences
+- **Fallback planning**: Preparing for failure scenarios
+
+## Implementation Strategies
+
+### Prompt Engineering
+
+Effective prompts for robotics tasks:
+
+```python
+def create_robot_planning_prompt(goal, capabilities, environment):
+    prompt = f"""
+    You are a robot planning assistant.
+    The robot has these capabilities: {capabilities}
+    The current environment includes: {environment}
+    The goal is: {goal}
+
+    Provide a step-by-step plan to achieve this goal.
+    For each step, specify:
+    1. Action to take
+    2. Expected outcome
+    3. Potential challenges
+    4. Success criteria
+
+    Consider safety, efficiency, and feasibility.
+    """
+    return prompt
+```
+
+### Chain-of-Thought Reasoning
+
+Encouraging step-by-step reasoning:
+
+```python
+def reason_with_chain_of_thought(llm, task):
+    prompt = f"""
+    Let's think step by step about how to accomplish: {task}
+
+    First, I need to understand what the task requires.
+    Then, I should consider the available resources.
+    Next, I'll plan the sequence of actions.
+    Finally, I'll consider potential issues and solutions.
+
+    Step 1: ...
+    Step 2: ...
+    """
+    return llm.generate(prompt)
+```
+
+## Integration with Robot Systems
+
+### ROS 2 Integration
+
+Using ROS 2 for LLM-robot communication:
+
+```python
+class LLMPlannerNode(Node):
+    def __init__(self):
+        super().__init__('llm_planner')
+        self.llm_client = LLMClient()
+        self.plan_publisher = self.create_publisher(Plan, 'robot_plan', 10)
+        self.feedback_subscriber = self.create_subscription(
+            ExecutionFeedback, 'execution_feedback',
+            self.feedback_callback, 10)
+
+    def plan_callback(self, goal_msg):
+        plan = self.generate_plan(goal_msg.description)
+        self.plan_publisher.publish(plan)
+
+    def generate_plan(self, goal_description):
+        # Use LLM to generate detailed plan
+        prompt = self.create_planning_prompt(goal_description)
+        response = self.llm_client.query(prompt)
+        return self.parse_plan_response(response)
+```
+
+### Action Execution
+
+Converting LLM plans to robot actions:
+
+```python
+def execute_llm_plan(robot, llm_plan):
+    for step in llm_plan.steps:
+        action = convert_to_robot_action(step)
+        result = robot.execute(action)
+
+        if not result.success:
+            # Handle failure - perhaps ask LLM for alternative
+            alternative = llm_client.query(
+                f"Original plan failed at step: {step.description}. "
+                f"Robot feedback: {result.error}. "
+                f"Suggest an alternative approach."
+            )
+            # Adjust plan based on alternative
+```
+
+## Safety and Reliability
+
+### Safety Constraints
+
+LLMs must respect safety requirements:
+
+- **Physical safety**: Avoid dangerous actions
+- **Social safety**: Follow appropriate norms
+- **Environmental safety**: Protect objects and spaces
+- **Operational safety**: Maintain robot functionality
+
+### Validation and Verification
+
+Ensuring LLM-generated plans are safe:
+
+```python
+def validate_plan(plan, safety_constraints):
+    for action in plan.actions:
+        if violates_safety_constraint(action, safety_constraints):
+            return False, f"Action violates safety: {action.description}"
+    return True, "Plan is safe"
+```
+
+## Performance Considerations
+
+### Latency Management
+
+Balancing planning quality with response time:
+
+- **Asynchronous planning**: Generate plans in background
+- **Progressive refinement**: Start with coarse plan, refine over time
+- **Caching**: Store common plans for reuse
+- **Parallel processing**: Plan multiple approaches simultaneously
+
+### Resource Management
+
+Managing computational resources:
+
+- **API costs**: Monitor and limit LLM usage
+- **Network latency**: Handle API call delays
+- **Memory usage**: Manage context window efficiently
+- **Execution speed**: Balance planning thoroughness with speed
+
+## Evaluation Metrics
+
+### Plan Quality
+
+- **Completeness**: Does the plan achieve the goal?
+- **Efficiency**: How optimal is the plan?
+- **Safety**: Does the plan avoid dangerous situations?
+- **Feasibility**: Can the robot actually execute the plan?
+
+### System Performance
+
+- **Response time**: How quickly does the system respond?
+- **Success rate**: How often do plans succeed?
+- **User satisfaction**: How well does the system meet user needs?
+- **Learning rate**: How quickly does the system improve?
+
+import Exercise from '@site/src/components/Exercise';
+
+<!-- Instructor Notes:
+- Emphasize the difference between reactive and cognitive systems
+- Demonstrate how LLMs can handle novel situations
+- Show examples of task decomposition in practice
+- Provide hands-on experience with LLM integration
+- Discuss the limitations and challenges of LLM-based planning
+-->
+
+<Exercise
+  title="Implementing LLM Cognitive Planning"
+  difficulty="advanced"
+  estimatedTime={120}
+  type="practical"
+>
+
+Follow these steps to implement a basic LLM-driven planning system:
+
+1. Set up an LLM client for planning queries
+2. Create a world model representation
+3. Implement task decomposition functionality
+4. Integrate with a robot simulation or real robot
+5. Test with various high-level goals
+6. Evaluate the system's planning effectiveness
+
+</Exercise>
+
+## Summary
+
+This week covered the integration of Large Language Models for cognitive planning in robotics. We explored how LLMs can decompose complex tasks, reason about the environment, and generate executable plans. This approach enables robots to understand high-level goals and autonomously determine how to achieve them, representing a significant advance in autonomous robotics capabilities.
+
+## Next Steps
+
+[Continue to Week 13: Capstone Project - Autonomous Humanoid](../week-13/index)

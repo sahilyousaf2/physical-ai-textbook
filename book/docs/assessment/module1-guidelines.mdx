@@ -1,0 +1,87 @@
+---
+sidebar_position: 1
+---
+
+# Module 1 Assessment Guidelines
+
+## Overview
+
+Module 1: "The Robotic Nervous System (ROS 2)" focuses on understanding the core architecture of ROS 2 and how to implement basic robotics communication patterns. This module covers fundamental concepts including nodes, topics, services, and Python integration with rclpy.
+
+## Learning Objectives
+
+Students should be able to:
+
+- Explain the core architecture of ROS 2 and its advantages over ROS 1
+- Create and run ROS 2 nodes in both Python and C++
+- Implement publishers and subscribers for topics
+- Create and use services for request/response communication
+- Work with parameters in ROS 2 nodes
+- Use callbacks and timers effectively in Python nodes
+
+## Assessment Criteria
+
+### Practical Assessment (70%)
+
+Students will complete the following practical exercises:
+
+1. **Node Creation Exercise**: Create a ROS 2 node that implements both a publisher and subscriber
+   - Criteria: Node properly initializes, creates publisher/subscriber, and runs without errors
+   - Weight: 25%
+
+2. **Service Implementation**: Create a service server and client that performs a simple calculation
+   - Criteria: Service properly handles requests, client correctly calls the service
+   - Weight: 25%
+
+3. **Parameter Management**: Create a node that declares and uses parameters with dynamic reconfiguration
+   - Criteria: Parameters properly declared, values correctly retrieved and used
+   - Weight: 20%
+
+### Theoretical Assessment (30%)
+
+Students will complete a written assessment covering:
+
+1. Differences between ROS 1 and ROS 2 architecture
+2. QoS policies and their applications
+3. When to use topics vs services
+4. The role of DDS in ROS 2
+
+## Grading Rubric
+
+### Excellent (A, 90-100%)
+- All practical exercises function correctly with no errors
+- Code is well-commented and follows best practices
+- Theoretical concepts are clearly explained with examples
+- Demonstrates deep understanding of ROS 2 architecture
+
+### Proficient (B, 80-89%)
+- Practical exercises work with minor issues
+- Code is generally well-structured
+- Theoretical concepts are explained correctly
+- Shows good understanding of ROS 2 architecture
+
+### Satisfactory (C, 70-79%)
+- Practical exercises work but with some errors or limitations
+- Code follows basic structure but lacks optimization
+- Theoretical concepts are understood but explanations are basic
+- Shows adequate understanding of ROS 2 architecture
+
+### Needs Improvement (D/F, &lt;70%)
+- Practical exercises have significant errors or don't work
+- Code has structural problems
+- Theoretical concepts are not well understood
+- Shows limited understanding of ROS 2 architecture
+
+## Resources for Assessment
+
+- [ROS 2 Documentation](https://docs.ros.org/en/humble/)
+- Module 1 content pages
+- Exercise solutions and examples
+- ROS 2 tutorials
+
+## Instructor Notes
+
+- Encourage students to test their nodes thoroughly
+- Provide feedback on code structure and documentation
+- Consider peer review for code quality assessment
+- Use simulation environments for testing when physical robots are not available

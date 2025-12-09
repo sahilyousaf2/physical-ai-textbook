@@ -1,0 +1,268 @@
+---
+sidebar_position: 1
+---
+
+# Week 11: Voice Commands and Processing
+
+This week, we'll explore how to enable robots to understand and respond to natural language voice commands. We'll cover speech recognition with OpenAI Whisper and how to process natural language commands for robot control.
+
+## Learning Objectives
+
+After completing this week, you will be able to:
+
+- Implement voice command recognition using OpenAI Whisper
+- Process natural language commands for robot control
+- Map voice commands to specific robot actions
+- Handle ambiguity and uncertainty in voice commands
+- Integrate voice processing with robot control systems
+
+## Introduction to Voice-Enabled Robotics
+
+Voice interfaces provide a natural way for humans to interact with robots, enabling more intuitive and accessible human-robot interaction. This technology is essential for creating robots that can work alongside humans in everyday environments.
+
+### Benefits of Voice Control
+
+- **Natural interaction**: Humans naturally communicate through speech
+- **Hands-free operation**: Allows other tasks while controlling robot
+- **Accessibility**: Enables interaction for users with mobility limitations
+- **Efficiency**: Quick way to issue complex commands
+
+### Challenges in Voice Robotics
+
+- **Noise robustness**: Operating in noisy environments
+- **Command interpretation**: Understanding intent from natural language
+- **Real-time processing**: Responding quickly to voice commands
+- **Ambiguity resolution**: Handling unclear or ambiguous commands
+
+## Speech Recognition with OpenAI Whisper
+
+OpenAI Whisper is a state-of-the-art speech recognition model that can transcribe speech to text with high accuracy across multiple languages.
+
+### Whisper Architecture
+
+- **Transformer-based**: Uses attention mechanisms for sequence processing
+- **Multilingual**: Trained on 98+ languages
+- **Robust**: Performs well in noisy conditions
+- **Flexible**: Available in multiple sizes for different applications
+
+### Integration with Robotics
+
+```python
+import whisper
+import rclpy
+from std_msgs.msg import String
+
+class VoiceCommandProcessor:
+    def __init__(self):
+        self.model = whisper.load_model("base")
+        self.node = rclpy.create_node('voice_processor')
+        self.command_publisher = self.node.create_publisher(String, 'robot_commands', 10)
+
+    def process_audio(self, audio_data):
+        # Transcribe audio to text
+        result = self.model.transcribe(audio_data)
+        command_text = result["text"]
+
+        # Process and publish command
+        cmd_msg = String()
+        cmd_msg.data = self.parse_command(command_text)
+        self.command_publisher.publish(cmd_msg)
+
+    def parse_command(self, command_text):
+        # Convert natural language to robot commands
+        # Implementation depends on command vocabulary
+        pass
+```
+
+## Natural Language Understanding
+
+### Command Parsing
+
+Converting natural language to structured commands:
+
+- **Intent recognition**: Identifying the user's goal
+- **Entity extraction**: Identifying objects, locations, etc.
+- **Action mapping**: Converting to specific robot actions
+- **Context awareness**: Understanding commands in context
+
+### Common Command Patterns
+
+- **Navigation commands**: "Go to the kitchen", "Move forward 2 meters"
+- **Manipulation commands**: "Pick up the red ball", "Open the door"
+- **Information requests**: "What's in the box?", "Where are you?"
+- **Behavior commands**: "Follow me", "Wait here", "Stop"
+
+## Voice Command Processing Pipeline
+
+### Audio Capture
+
+1. **Microphone array**: Capture high-quality audio
+2. **Noise reduction**: Filter out background noise
+3. **Voice activity detection**: Identify speech segments
+4. **Audio preprocessing**: Prepare for recognition
+
+### Speech-to-Text
+
+1. **Feature extraction**: Convert audio to suitable format
+2. **Model inference**: Run Whisper model on audio
+3. **Text generation**: Produce transcribed text
+4. **Confidence scoring**: Assess transcription quality
+
+### Natural Language Processing
+
+1. **Intent classification**: Determine command type
+2. **Entity recognition**: Extract relevant information
+3. **Command validation**: Verify command is valid
+4. **Action generation**: Create robot command
+
+## Implementation Strategies
+
+### Real-Time Processing
+
+For responsive voice interfaces:
+
+- **Streaming recognition**: Process audio as it arrives
+- **Buffer management**: Balance latency and accuracy
+- **Partial results**: Provide feedback during processing
+- **Interrupt handling**: Allow command interruption
+
+### Accuracy Improvements
+
+- **Domain adaptation**: Fine-tune models for specific tasks
+- **Language modeling**: Use robot-specific language models
+- **Feedback mechanisms**: Learn from user corrections
+- **Multi-modal fusion**: Combine voice with other inputs
+
+## Robot Command Mapping
+
+### Simple Command Mapping
+
+Direct mapping from voice to action:
+
+```python
+COMMAND_MAP = {
+    "move forward": "move_forward",
+    "turn left": "turn_left",
+    "turn right": "turn_right",
+    "stop": "stop_robot"
+}
+```
+
+### Parameterized Commands
+
+Commands with arguments:
+
+```python
+def parse_navigation_command(text):
+    # Extract distance and direction from commands like
+    # "move forward 2 meters" or "turn left 90 degrees"
+    pass
+```
+
+### Context-Aware Commands
+
+Commands that depend on robot state:
+
+```python
+def handle_contextual_command(text, robot_state):
+    # Interpret commands based on current robot context
+    # e.g., "go back" means different things in different situations
+    pass
+```
+
+## Handling Ambiguity
+
+### Uncertainty Management
+
+- **Confidence thresholds**: Only act on high-confidence transcriptions
+- **Clarification requests**: Ask for clarification when uncertain
+- **Multiple interpretations**: Consider several possible meanings
+- **Learning from feedback**: Improve based on user corrections
+
+### Error Recovery
+
+- **Graceful degradation**: Continue operation despite errors
+- **Fallback commands**: Default behaviors for unrecognized commands
+- **User feedback**: Inform users of processing results
+- **Retry mechanisms**: Attempt to process commands multiple times
+
+## Integration with Robot Systems
+
+### ROS 2 Integration
+
+Using ROS 2 for voice processing:
+
+```python
+# Voice processing node
+class VoiceControlNode(Node):
+    def __init__(self):
+        super().__init__('voice_control')
+        self.command_publisher = self.create_publisher(
+            String, 'voice_commands', 10)
+        self.audio_subscriber = self.create_subscription(
+            AudioData, 'audio_input', self.audio_callback, 10)
+
+    def audio_callback(self, msg):
+        command = self.process_voice_command(msg.data)
+        self.command_publisher.publish(command)
+```
+
+### Multi-Modal Integration
+
+Combining voice with other modalities:
+
+- **Vision**: Use visual context to disambiguate commands
+- **Touch**: Combine voice with physical interaction
+- **Gestures**: Interpret voice commands with hand gestures
+- **Environment**: Use environmental context for interpretation
+
+## Performance Considerations
+
+### Real-Time Requirements
+
+- **Latency**: Keep response time under 500ms for good UX
+- **Throughput**: Process commands as fast as users speak
+- **Resource usage**: Balance accuracy with computational requirements
+- **Power consumption**: Consider battery life for mobile robots
+
+### Accuracy Metrics
+
+- **Word error rate**: Percentage of incorrectly transcribed words
+- **Command success rate**: Percentage of correctly interpreted commands
+- **User satisfaction**: Subjective measure of system usability
+- **Recovery rate**: Ability to handle and recover from errors
+
+import Exercise from '@site/src/components/Exercise';
+
+<!-- Instructor Notes:
+- Emphasize the importance of natural human-robot interaction
+- Demonstrate the difference between speech recognition and understanding
+- Show examples of voice-enabled robots in real applications
+- Provide hands-on experience with Whisper integration
+- Discuss the challenges of real-world voice processing
+-->
+
+<Exercise
+  title="Implementing Voice Command Recognition"
+  difficulty="advanced"
+  estimatedTime={90}
+  type="practical"
+>
+
+Follow these steps to implement a basic voice command system:
+
+1. Set up OpenAI Whisper for speech recognition
+2. Create an audio capture system
+3. Implement command parsing for robot navigation
+4. Test the system with various voice commands
+5. Evaluate the accuracy and responsiveness of the system
+
+</Exercise>
+
+## Summary
+
+This week covered voice command processing for robotics, including speech recognition with OpenAI Whisper and natural language understanding. We explored the complete pipeline from audio capture to robot command execution, and discussed the challenges of creating robust voice interfaces for robots. Voice control enables more natural human-robot interaction and is essential for robots that work alongside humans.
+
+## Next Steps
+
+[Continue to Week 12: LLM Cognitive Planning](../week-12/index)

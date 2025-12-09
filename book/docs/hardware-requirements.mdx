@@ -1,0 +1,179 @@
+---
+sidebar_position: 3
+---
+
+# Hardware Requirements
+
+This document outlines the hardware requirements for developing and running the robotics applications covered in this textbook. Requirements vary depending on which modules and technologies you plan to work with.
+
+## Minimum Hardware Requirements
+
+### General Development
+- **CPU**: Intel Core i5 or AMD Ryzen 5 (4 cores, 8 threads)
+- **RAM**: 8 GB DDR4
+- **Storage**: 256 GB SSD
+- **Graphics**: Integrated graphics (Intel HD Graphics or equivalent)
+- **Network**: Ethernet or Wi-Fi 6 for network communication
+- **Operating System**: Ubuntu 22.04 LTS, Windows 10/11, or macOS 12+
+
+## Recommended Hardware Requirements
+
+### Standard Robotics Development
+- **CPU**: Intel Core i7 or AMD Ryzen 7 (6+ cores, 12+ threads)
+- **RAM**: 16 GB DDR4 (32 GB recommended for simulation)
+- **Storage**: 512 GB NVMe SSD
+- **Graphics**: Dedicated GPU with 4+ GB VRAM
+- **Network**: Gigabit Ethernet for real-time communication
+
+### Advanced Simulation (Gazebo/Unity)
+- **CPU**: Intel Core i9 or AMD Ryzen 9 (8+ cores, 16+ threads)
+- **RAM**: 32 GB DDR4
+- **Storage**: 1+ TB NVMe SSD
+- **Graphics**: NVIDIA RTX 3060 or better (8+ GB VRAM)
+- **Network**: 10GbE for distributed simulation (optional)
+
+## Module-Specific Requirements
+
+### Module 1: ROS 2 Development
+- **Minimum**: Any modern laptop with 8GB RAM
+- **Recommended**: 16GB RAM for simulation work
+- **Special Requirements**:
+  - Real robots: Compatible with ROS 2 (TurtleBot3, Clearpath robots, etc.)
+  - Network: Stable connection for distributed nodes
+  - I/O: USB ports for connecting hardware
+
+### Module 2: Gazebo Simulation
+- **Minimum**:
+  - CPU: 4+ cores
+  - RAM: 8GB
+  - GPU: Integrated graphics with OpenGL 3.3 support
+- **Recommended**:
+  - CPU: 6+ cores
+  - RAM: 16GB
+  - GPU: Dedicated graphics card with 4GB+ VRAM
+- **Special Requirements**:
+  - Physics processing requires significant CPU resources
+  - High-fidelity rendering benefits from dedicated GPU
+
+### Module 3: NVIDIA Isaac Integration
+- **Minimum**:
+  - CPU: 6+ cores
+  - RAM: 16GB
+  - GPU: NVIDIA GPU with 6GB+ VRAM (Compute Capability 6.0+)
+- **Recommended**:
+  - CPU: 8+ cores
+  - RAM: 32GB
+  - GPU: NVIDIA RTX 3080 or better (10GB+ VRAM)
+- **Special Requirements**:
+  - CUDA-capable NVIDIA GPU
+  - Compatible NVIDIA drivers
+  - Sufficient power supply for GPU
+  - Adequate cooling for intensive computation
+
+### Module 4: Vision-Language-Action Systems
+- **Minimum**:
+  - CPU: 8+ cores
+  - RAM: 32GB
+  - GPU: NVIDIA GPU with 8GB+ VRAM
+- **Recommended**:
+  - CPU: High-core count workstation CPU
+  - RAM: 64GB or more
+  - GPU: NVIDIA RTX 4090 or multiple high-end GPUs
+- **Special Requirements**:
+  - High-performance GPU for LLM inference
+  - Microphone array for voice input
+  - Cameras for vision processing
+  - Sufficient power infrastructure
+
+## Real Robot Hardware Integration
+
+### Common Robot Platforms
+The textbook content can be applied to various robot platforms:
+
+#### TurtleBot3 Series
+- **Waffle Pi**: Raspberry Pi 3B+ with Intel RealSense camera
+- **Burger**: Open-source differential drive platform
+- **Compatible Sensors**: IMU, lidar, camera
+- **Connection**: USB, serial, or Wi-Fi
+
+#### Clearpath Robotics Platforms
+- **Jackal**: Outdoor UGV with ROS 2 support
+- **Crate**: Indoor AMR platform
+- **Husky**: Rugged outdoor platform
+- **Connection**: Ethernet, Wi-Fi, or serial
+
+#### Custom Platforms
+- **Microcontroller**: ROS 2 Micro-ROS support (ESP32, Raspberry Pi Pico, etc.)
+- **Sensors**: Standard ROS 2 sensor interfaces
+- **Actuators**: Joint trajectory controllers
+- **Communication**: CAN, serial, I2C, SPI interfaces
+
+## Sensor Requirements
+
+### Basic Sensors (Simulation + Real Robots)
+- **IMU**: 9-DOF (accelerometer, gyroscope, magnetometer)
+- **Camera**: RGB camera (USB or MIPI interface)
+- **Lidar**: 2D or 3D LiDAR for navigation
+- **GPS**: For outdoor navigation (optional)
+
+### Advanced Sensors
+- **Stereo Camera**: For depth estimation
+- **Time-of-Flight Camera**: For precise depth sensing
+- **Thermal Camera**: For environmental sensing
+- **Force/Torque Sensors**: For manipulation tasks
+
+## Safety Considerations
+
+### Physical Safety
+- Ensure adequate workspace for robot operation
+- Keep emergency stop mechanisms accessible
+- Use safety barriers for high-speed operations
+- Proper lighting for safe operation
+
+### Electrical Safety
+- Use proper power supplies with appropriate ratings
+- Ensure grounding and electrical isolation
+- Use circuit protection (fuses, breakers)
+- Follow local electrical codes
+
+## Compatibility and Interfacing
+
+### USB Ports
+- Multiple USB 3.0+ ports for sensors and communication
+- USB-C preferred for power delivery and data
+- Hub support for multiple devices
+
+### Network Interfaces
+- Gigabit Ethernet for reliable communication
+- Wi-Fi 6 for wireless operation
+- Multiple network interfaces for network isolation
+
+### Expansion Options
+- PCIe slots for additional hardware
+- M.2 slots for additional storage
+- GPIO headers for direct hardware interfacing
+
+## Performance Benchmarks
+
+### ROS 2 Performance
+- **Node Communication**: &lt;10ms latency between nodes
+- **Message Throughput**: 100+ Hz for sensor data
+- **CPU Utilization**: &lt;70% average under normal load
+
+### Simulation Performance
+- **Gazebo**: 1000+ physics steps per second
+- **Real-time Factor**: >0.8x for interactive simulation
+- **Rendering**: 30+ FPS for visual feedback
+
+### AI/ML Performance
+- **Model Inference**: &lt;100ms for real-time applications
+- **Training**: GPU acceleration recommended
+- **Data Processing**: Sufficient I/O bandwidth
+
+## Upgrade Path Considerations
+
+Consider future expansion when selecting hardware:
+- Plan for increased memory requirements
+- Choose expandable chassis when possible
+- Consider GPU upgrade paths
+- Ensure adequate power supply headroom

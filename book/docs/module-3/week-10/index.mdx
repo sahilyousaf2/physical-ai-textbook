@@ -1,0 +1,236 @@
+---
+sidebar_position: 3
+---
+
+# Week 10: Bipedal Movement
+
+This week, we'll explore the principles and implementation of bipedal locomotion for humanoid robots. We'll cover the mechanics of walking, balance control, and integration with navigation systems to create stable, autonomous humanoid robots.
+
+## Learning Objectives
+
+After completing this week, you will be able to:
+
+- Implement bipedal movement algorithms for humanoid robots
+- Maintain balance and stability during locomotion
+- Integrate bipedal movement with navigation systems
+- Understand the biomechanics of human walking
+- Evaluate bipedal robot performance
+
+## Introduction to Bipedal Locomotion
+
+Bipedal locomotion is one of the most challenging problems in robotics, requiring precise control of multiple degrees of freedom while maintaining balance. Unlike wheeled robots, bipedal robots must manage dynamic balance and deal with the complexity of legged locomotion.
+
+### Challenges in Bipedal Locomotion
+
+- **Balance control**: Maintaining center of mass within support polygon
+- **Dynamic stability**: Managing the inherently unstable system
+- **Terrain adaptation**: Handling uneven surfaces and obstacles
+- **Energy efficiency**: Minimizing power consumption during walking
+- **Real-time control**: Processing sensor data and generating commands quickly
+
+## Biomechanics of Human Walking
+
+Understanding human locomotion provides insights for robotic implementations:
+
+### Gait Cycle
+
+The human walking cycle consists of:
+- **Stance phase**: Foot is in contact with ground (60% of cycle)
+- **Swing phase**: Foot is off ground, moving forward (40% of cycle)
+- **Double support**: Both feet on ground (brief periods)
+- **Single support**: Only one foot on ground (majority of cycle)
+
+### Key Principles
+
+- **Zero Moment Point (ZMP)**: Point where ground reaction forces create no moment
+- **Capture Point**: Location where robot should step to stop safely
+- **Center of Mass (CoM)**: Critical for balance control
+- **Angular momentum**: Important for dynamic balance
+
+## Control Approaches
+
+### Inverted Pendulum Model
+
+The simplest model for bipedal balance:
+- Treat robot as a point mass on a massless rod
+- Control by moving the support point
+- Forms basis for many balance controllers
+
+### Linear Inverted Pendulum (LIP)
+
+An extension that assumes constant height:
+- Simplifies dynamics while maintaining key characteristics
+- Enables trajectory planning for walking
+- Forms basis for many walking pattern generators
+
+### Cart-Table Model
+
+A more complex model that includes angular momentum:
+- More accurate representation of real dynamics
+- Better for complex movements and faster walking
+- More computationally intensive
+
+## Walking Pattern Generation
+
+### Footstep Planning
+
+Determining where and when to place feet:
+- **Stability criteria**: Ensure center of mass remains stable
+- **Kinematic constraints**: Respect robot's physical limitations
+- **Obstacle avoidance**: Plan around environmental obstacles
+- **Efficiency**: Minimize energy consumption
+
+### Trajectory Generation
+
+Creating smooth, stable body trajectories:
+- **Center of Mass trajectory**: Smooth path for CoM movement
+- **Foot trajectories**: Smooth lift and placement of feet
+- **Hip and torso motion**: Maintain balance and forward motion
+- **Arm swing**: Counterbalance for improved stability
+
+## Balance Control Systems
+
+### Feedback Control
+
+Using sensor data to maintain balance:
+- **IMU feedback**: Correct for body orientation errors
+- **Force/torque sensors**: Monitor ground contact forces
+- **Vision systems**: Detect environmental changes
+- **Proprioceptive sensors**: Monitor joint positions and forces
+
+### Feedforward Control
+
+Anticipating and preventing balance issues:
+- **Predictive control**: Anticipate disturbances
+- **Model-based control**: Use robot dynamics model
+- **Learning-based approaches**: Adapt to individual robot characteristics
+
+## Implementation Strategies
+
+### Joint Space Control
+
+Controlling individual joint angles:
+- Direct control of each joint
+- Good for precise positioning
+- Requires complex coordination
+
+### Operational Space Control
+
+Controlling end-effector positions and forces:
+- Intuitive control of feet and hands
+- Natural handling of redundancy
+- Complex inverse kinematics required
+
+### Hybrid Control
+
+Combining multiple control approaches:
+- Use different strategies for different tasks
+- Switch between control modes as needed
+- More robust to disturbances
+
+## Integration with Navigation
+
+### Path Planning for Bipedal Robots
+
+Special considerations for legged navigation:
+- **Step planning**: Consider individual foot placement
+- **Stability constraints**: Ensure path is statically stable
+- **Kinematic constraints**: Respect robot's mobility limits
+- **Terrain analysis**: Assess walkability of different paths
+
+### Obstacle Navigation
+
+Handling obstacles as a bipedal robot:
+- **Step over**: Small obstacles that can be stepped over
+- **Step around**: Laterally move around obstacles
+- **Step up/down**: Navigate height changes
+- **Dynamic avoidance**: Move around moving obstacles
+
+## Hardware Considerations
+
+### Actuator Requirements
+
+Bipedal robots need powerful, precise actuators:
+- **High torque-to-weight ratio**: For lifting and balancing
+- **Fast response**: For balance corrections
+- **Backdrivability**: For compliant control
+- **Energy efficiency**: For extended operation
+
+### Sensor Systems
+
+Critical sensors for bipedal control:
+- **IMU**: For orientation and acceleration
+- **Force/torque sensors**: For ground contact information
+- **Joint encoders**: For position feedback
+- **Vision systems**: For environment perception
+
+## Simulation and Testing
+
+### Simulation Environments
+
+Testing bipedal algorithms in simulation:
+- **Gazebo**: Physics-based simulation
+- **Isaac Sim**: Photorealistic simulation
+- **Custom simulators**: Specialized for bipedal research
+
+### Transfer to Reality
+
+Challenges in sim-to-real transfer:
+- **Model accuracy**: Simulation vs. reality differences
+- **Sensor noise**: Real sensors have imperfections
+- **Latency**: Real systems have communication delays
+- **Calibration**: Ensuring accurate robot model
+
+## Advanced Topics
+
+### Dynamic Walking
+
+Moving beyond slow, careful walking:
+- **Fast walking**: Higher speeds with controlled falling
+- **Running**: Extended flight phases
+- **Jumping**: Controlled aerial phases
+- **Climbing**: Navigating stairs and obstacles
+
+### Learning-Based Approaches
+
+Using machine learning for locomotion:
+- **Reinforcement learning**: Learning optimal policies
+- **Imitation learning**: Learning from human demonstrations
+- **Neural networks**: Learning complex control policies
+- **Adaptive control**: Learning to adapt to new conditions
+
+import Exercise from '@site/src/components/Exercise';
+
+<!-- Instructor Notes:
+- Emphasize the complexity of bipedal locomotion
+- Demonstrate different control approaches
+- Show examples of real bipedal robots
+- Provide hands-on experience with simulation
+- Discuss the challenges of sim-to-real transfer
+-->
+
+<Exercise
+  title="Implementing Bipedal Locomotion"
+  difficulty="advanced"
+  estimatedTime={120}
+  type="practical"
+>
+
+Follow these steps to implement a basic bipedal locomotion system:
+
+1. Create a simple bipedal robot model in simulation
+2. Implement a basic walking pattern generator
+3. Add balance control using IMU feedback
+4. Integrate with a navigation system
+5. Test the robot's ability to walk and maintain balance
+6. Evaluate performance in different scenarios
+
+</Exercise>
+
+## Summary
+
+This week covered the complex field of bipedal locomotion, from biomechanical principles to practical implementation. We explored various control approaches, balance strategies, and integration with navigation systems. Bipedal locomotion remains one of the most challenging areas in robotics, requiring sophisticated control algorithms and careful system design.
+
+## Next Steps
+
+[Continue to Week 11: Voice Commands and Processing](../../module-4/week-11/index)

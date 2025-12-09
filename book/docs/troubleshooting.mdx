@@ -1,0 +1,350 @@
+---
+sidebar_position: 8
+---
+
+# Troubleshooting Guide
+
+This page provides solutions to common issues you may encounter while setting up and using the tools covered in the Physical AI & Humanoid Robotics textbook. This guide covers troubleshooting for ROS 2, Gazebo, Unity, and NVIDIA Isaac.
+
+## General Troubleshooting Principles
+
+### Before You Begin Troubleshooting
+
+1. **Check the basics**:
+   - Verify your system meets the minimum requirements
+   - Ensure all prerequisites are installed
+   - Confirm you have a stable internet connection
+
+2. **Environment setup**:
+   - Verify ROS 2 environment is sourced: `source /opt/ros/humble/setup.bash`
+   - Check that environment variables are set correctly
+   - Ensure you're using the correct terminal/shell
+
+3. **Version compatibility**:
+   - Confirm all tools are compatible with each other
+   - Check that you're using recommended versions
+   - Verify that your OS is supported
+
+### Getting Help
+
+- Check the official documentation for each tool
+- Search the community forums and Q&A sites
+- Look for existing GitHub issues or create a new one
+- Verify the issue is reproducible in a clean environment
+
+## ROS 2 Troubleshooting
+
+### Common Issues
+
+#### ROS 2 Commands Not Found
+
+**Symptoms**: Commands like `ros2` return "command not found"
+
+**Solutions**:
+1. Ensure ROS 2 is installed: `ls /opt/ros/humble/`
+2. Source the ROS 2 environment: `source /opt/ros/humble/setup.bash`
+3. Add to your shell profile: `echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc`
+4. Check that your terminal is using the correct shell
+
+#### Node Communication Issues
+
+**Symptoms**: Nodes cannot communicate with each other
+
+**Solutions**:
+1. Verify both nodes are using the same DDS implementation
+2. Check that the ROS_DOMAIN_ID is the same: `echo $ROS_DOMAIN_ID`
+3. Ensure no firewall is blocking communication
+4. Confirm nodes are on the same network if distributed
+
+#### Python Import Errors
+
+**Symptoms**: Errors importing ROS 2 Python packages
+
+**Solutions**:
+1. Verify Python 3.8+ is being used: `python3 --version`
+2. Check that rclpy is installed: `python3 -c "import rclpy"`
+3. Ensure the ROS 2 environment is sourced before running Python
+4. Verify PYTHONPATH includes ROS 2 packages
+
+### Performance Issues
+
+#### Slow Node Startup
+
+**Symptoms**: Nodes take a long time to start or discover each other
+
+**Solutions**:
+1. Check network configuration and disable unnecessary interfaces
+2. Verify firewall settings are not blocking DDS traffic
+3. Consider using a different DDS implementation (FastDDS vs CycloneDDS)
+4. Reduce the number of nodes running simultaneously
+
+#### High CPU Usage
+
+**Symptoms**: ROS 2 processes consume excessive CPU resources
+
+**Solutions**:
+1. Check for infinite loops in your nodes
+2. Use appropriate loop rates in your code
+3. Verify QoS settings are appropriate for your use case
+4. Monitor for memory leaks in long-running processes
+
+## Gazebo Troubleshooting
+
+### Common Issues
+
+#### Gazebo Won't Start
+
+**Symptoms**: Gazebo crashes immediately or doesn't launch
+
+**Solutions**:
+1. Check graphics drivers are up to date
+2. Try software rendering: `gazebo --software-rendering`
+3. Verify OpenGL support: `glxinfo | grep "OpenGL version"`
+4. Check for sufficient RAM and disk space
+
+#### Slow Simulation Performance
+
+**Symptoms**: Simulation runs slowly or with low frame rate
+
+**Solutions**:
+1. Reduce the complexity of your world file
+2. Lower the rendering quality in Gazebo settings
+3. Close other applications to free up resources
+4. Check that real-time factor is close to 1.0
+
+#### Physics Issues
+
+**Symptoms**: Objects behave unrealistically or simulation is unstable
+
+**Solutions**:
+1. Adjust physics engine parameters (time step, iterations)
+2. Verify mass and inertia properties are realistic
+3. Check joint limits and constraints are properly set
+4. Consider using a different physics engine if available
+
+### ROS 2 Integration Issues
+
+#### Gazebo ROS Bridge Not Working
+
+**Symptoms**: ROS 2 nodes cannot communicate with Gazebo
+
+**Solutions**:
+1. Verify Gazebo ROS packages are installed: `ros-humble-gazebo-ros-pkgs`
+2. Check that the ROS environment is sourced before launching Gazebo
+3. Verify topic names match between ROS 2 nodes and Gazebo plugins
+4. Confirm the spawn service is working: `ros2 service list | grep spawn`
+
+## Unity Troubleshooting
+
+### Common Issues
+
+#### Unity Hub Won't Install
+
+**Symptoms**: Installation fails or Unity Hub doesn't launch
+
+**Solutions**:
+1. Check system requirements are met
+2. Ensure you have administrative privileges
+3. Temporarily disable antivirus during installation
+4. Verify sufficient disk space is available
+
+#### Unity Editor Performance Issues
+
+**Symptoms**: Editor runs slowly or crashes frequently
+
+**Solutions**:
+1. Update graphics drivers to the latest version
+2. Check that your graphics card meets minimum requirements
+3. Close other applications to free up RAM and GPU resources
+4. Try using a different render pipeline (URP instead of HDRP)
+
+#### Isaac Unity Plugin Issues
+
+**Symptoms**: Isaac components not available or plugin fails to import
+
+**Solutions**:
+1. Verify you're using a compatible Unity version (2022.3 LTS recommended)
+2. Check NVIDIA Isaac license requirements
+3. Ensure internet connection during plugin import
+4. Verify Unity Hub and Editor are up to date
+
+## NVIDIA Isaac Troubleshooting
+
+### Common Issues
+
+#### Isaac Sim Won't Launch
+
+**Symptoms**: Isaac Sim crashes on startup or won't open
+
+**Solutions**:
+1. Verify NVIDIA GPU with Compute Capability 6.0+ is installed
+2. Check that NVIDIA drivers are up to date (470+)
+3. Confirm CUDA is properly installed and accessible
+4. Try running with software rendering if graphics issues persist
+
+#### CUDA-Related Errors
+
+**Symptoms**: CUDA initialization failures or GPU not detected
+
+**Solutions**:
+1. Verify CUDA version compatibility with Isaac Sim
+2. Check that cuDNN is properly installed
+3. Ensure your GPU has sufficient VRAM (8GB+ recommended)
+4. Test CUDA installation separately: `nvidia-smi` and `nvcc --version`
+
+#### Isaac ROS Bridge Issues
+
+**Symptoms**: ROS 2 nodes can't communicate with Isaac Sim
+
+**Solutions**:
+1. Verify Isaac ROS packages are installed: `ros-humble-isaac-ros-*`
+2. Check that both systems use the same DDS implementation
+3. Confirm the ROS bridge extension is enabled in Isaac Sim
+4. Verify network connectivity if running on different machines
+
+### Performance Issues
+
+#### Slow Simulation
+
+**Symptoms**: Isaac Sim runs slowly or with low frame rate
+
+**Solutions**:
+1. Lower rendering quality settings in Isaac Sim
+2. Reduce scene complexity (fewer objects, simpler materials)
+3. Check that GPU has sufficient VRAM for the scene
+4. Close other GPU-intensive applications
+
+#### High GPU Memory Usage
+
+**Symptoms**: GPU memory exhausted during simulation
+
+**Solutions**:
+1. Reduce texture resolution in your assets
+2. Use texture streaming where possible
+3. Optimize mesh complexity
+4. Consider using proxy representations during development
+
+## Network and Communication Troubleshooting
+
+### Multi-Machine Setup Issues
+
+#### Nodes Can't Discover Each Other
+
+**Symptoms**: Distributed nodes on different machines can't communicate
+
+**Solutions**:
+1. Check that ROS_DOMAIN_ID is the same on all machines
+2. Verify firewall settings allow DDS traffic (ports 7400+)
+3. Confirm all machines are on the same network
+4. Check network latency between machines
+
+#### High Network Latency
+
+**Symptoms**: Delayed communication between distributed nodes
+
+**Solutions**:
+1. Use a dedicated network for robotics communication
+2. Check for network congestion
+3. Consider using QoS settings with appropriate reliability
+4. Verify network hardware (switches, cables) are functioning properly
+
+## Hardware Troubleshooting
+
+### Robot Hardware Integration
+
+#### USB Communication Issues
+
+**Symptoms**: Cannot communicate with robot hardware via USB
+
+**Solutions**:
+1. Check USB permissions: `sudo usermod -a -G dialout $USER`
+2. Verify correct USB device path: `lsusb`
+3. Check that the robot is properly powered on
+4. Try a different USB cable or port
+
+#### Sensor Issues
+
+**Symptoms**: Sensors not publishing data or providing incorrect readings
+
+**Solutions**:
+1. Verify sensor power connections
+2. Check communication interfaces (USB, serial, I2C, etc.)
+3. Confirm sensor calibration is correct
+4. Test sensors independently before integration
+
+## Development Environment Issues
+
+### Workspace Problems
+
+#### Colcon Build Failures
+
+**Symptoms**: `colcon build` fails with compilation errors
+
+**Solutions**:
+1. Check that all dependencies are installed: `rosdep install --from-paths src --ignore-src -r -y`
+2. Verify package.xml files are correctly formatted
+3. Check for missing CMakeLists.txt files
+4. Clear build and install directories: `rm -rf build/ install/ log/`
+
+#### Package Not Found
+
+**Symptoms**: ROS 2 commands can't find your packages
+
+**Solutions**:
+1. Ensure packages are in the src directory of your workspace
+2. Source your workspace: `source install/setup.bash`
+3. Check that package names are correctly specified
+4. Verify CMakeLists.txt and package.xml are properly configured
+
+## System-Level Troubleshooting
+
+### Memory Issues
+
+#### Out of Memory Errors
+
+**Symptoms**: Applications crash with memory errors
+
+**Solutions**:
+1. Close unnecessary applications
+2. Check for memory leaks in your code
+3. Increase swap space if using virtual machines
+4. Consider using lighter alternatives for development
+
+### Permission Issues
+
+#### Permission Denied Errors
+
+**Symptoms**: Cannot install packages or run commands
+
+**Solutions**:
+1. Use appropriate permissions (sudo where necessary)
+2. Check file and directory permissions
+3. Verify user group membership (dialout for serial devices)
+4. Check that you're not trying to modify system-protected files
+
+## Getting Additional Help
+
+### Documentation Resources
+
+- [ROS 2 Documentation](https://docs.ros.org/)
+- [ROS Answers](https://answers.ros.org/)
+- [Gazebo Documentation](https://gazebosim.org/docs)
+- [Unity Manual](https://docs.unity3d.com/Manual/index.html)
+- [NVIDIA Isaac Documentation](https://docs.nvidia.com/isaac/)
+
+### Community Support
+
+- ROS Discourse: [discourse.ros.org](https://discourse.ros.org/)
+- Gazebo Community: [community.gazebosim.org](https://community.gazebosim.org/)
+- Unity Community: [forum.unity.com](https://forum.unity.com/)
+- NVIDIA Developer Forums: [forums.developer.nvidia.com](https://forums.developer.nvidia.com/)
+
+### Creating Effective Bug Reports
+
+When reporting issues:
+
+1. Include your system specifications (OS, GPU, etc.)
+2. Provide the exact error message
+3. Include the steps to reproduce the issue
+4. Mention what you expected to happen vs. what actually happened
+5. Include relevant log files or console output

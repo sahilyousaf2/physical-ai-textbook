@@ -1,0 +1,194 @@
+---
+sidebar_position: 4
+---
+
+# ROS 2 Setup Instructions
+
+This page provides detailed instructions for setting up ROS 2 (Robot Operating System 2) for use with the Physical AI & Humanoid Robotics textbook. Follow these steps to install and configure ROS 2 on your system.
+
+## Prerequisites
+
+Before installing ROS 2, ensure you have:
+
+- A compatible operating system (Ubuntu 22.04 LTS, Windows 10/11 with WSL2, or macOS 12+)
+- At least 8GB RAM (16GB recommended)
+- Sufficient disk space (20GB+ recommended)
+- Internet connection for downloading packages
+
+## Ubuntu Installation (Recommended)
+
+We recommend using ROS 2 Humble Hawksbill, which is an LTS (Long Term Support) version that provides stability for the duration of the course.
+
+### 1. Set Locale
+
+First, ensure your locale is set to UTF-8:
+
+```bash
+locale  # check for UTF-8
+sudo locale-gen en_US.UTF-8
+```
+
+### 2. Setup Sources
+
+Add the ROS 2 repository to your system:
+
+```bash
+sudo apt update && sudo apt install -y curl gnupg lsb-release
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+```
+
+### 3. Install ROS 2
+
+Update your package list and install the ROS 2 desktop package:
+
+```bash
+sudo apt update
+sudo apt install ros-humble-desktop
+sudo apt install python3-rosdep2
+```
+
+### 4. Environment Setup
+
+Add the ROS 2 environment setup to your shell profile:
+
+```bash
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+### 5. Install Additional Tools
+
+Install development tools that will be useful throughout the course:
+
+```bash
+sudo apt install python3-colcon-common-extensions
+sudo apt install python3-rosinstall
+```
+
+## Windows Installation (Alternative)
+
+For Windows users, we recommend using WSL2 (Windows Subsystem for Linux) with Ubuntu:
+
+1. Install WSL2 by following [Microsoft's official guide](https://docs.microsoft.com/en-us/windows/wsl/install)
+2. Install Ubuntu 22.04 from the Microsoft Store
+3. Follow the Ubuntu installation steps above within your WSL2 terminal
+4. For GUI applications, install an X11 server like VcXsrv or WSLg
+
+## macOS Installation (Limited Support)
+
+While ROS 2 can be installed on macOS, support is limited compared to Linux. For best results, use a virtual machine with Ubuntu or continue with WSL2 on Windows.
+
+1. Install Homebrew if not already installed:
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+2. Install ROS 2 using the binary packages:
+```bash
+# Add ROS 2 repository
+brew tap ros/humble https://github.com/ros/humble.git
+brew install ros-humble-desktop
+```
+
+## Verification Steps
+
+After completing the installation, verify that ROS 2 is working properly:
+
+### 1. Test Basic ROS 2 Commands
+
+Open a new terminal and run:
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 --version
+```
+
+You should see the ROS 2 version information.
+
+### 2. Test Communication Between Nodes
+
+In one terminal, start the talker node:
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 run demo_nodes_cpp talker
+```
+
+In another terminal, start the listener node:
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 run demo_nodes_py listener
+```
+
+You should see messages being transmitted from the talker to the listener.
+
+### 3. Verify Python Integration
+
+Test that Python integration is working:
+
+```bash
+python3 -c "import rclpy; print('rclpy imported successfully')"
+```
+
+## Common ROS 2 Packages for This Course
+
+The following packages will be used throughout the textbook:
+
+- `rclpy`: Python client library for ROS 2
+- `rclcpp`: C++ client library for ROS 2
+- `std_msgs`: Standard message types
+- `sensor_msgs`: Sensor message definitions
+- `geometry_msgs`: Geometry-related message types
+- `nav_msgs`: Navigation message types
+- `tf2`: Transform library for coordinate frames
+- `rosbag2`: Tools for recording and playing back data
+
+Install additional packages as needed:
+
+```bash
+sudo apt install ros-humble-<package-name>
+```
+
+## Setting Up a Workspace
+
+Create a workspace for your robotics projects:
+
+```bash
+mkdir -p ~/robotics_ws/src
+cd ~/robotics_ws
+colcon build
+source install/setup.bash
+```
+
+## Troubleshooting
+
+### Common Issues:
+
+**ROS 2 commands not found:**
+- Ensure you sourced the setup.bash file: `source /opt/ros/humble/setup.bash`
+- Check that ROS 2 is properly installed: `ls /opt/ros/humble/`
+
+**Python import errors:**
+- Make sure you're using Python 3.8 or higher
+- Verify that the ROS environment is sourced before running Python scripts
+
+**Network communication issues:**
+- Check firewall settings
+- Ensure all machines are on the same network
+- Verify DDS configuration if using multi-machine setups
+
+### Getting Help:
+
+- ROS Documentation: [https://docs.ros.org/](https://docs.ros.org/)
+- ROS Answers: [https://answers.ros.org/](https://answers.ros.org/)
+- ROS Discourse: [https://discourse.ros.org/](https://discourse.ros.org/)
+
+## Next Steps
+
+Once ROS 2 is installed and verified, you can proceed to:
+
+- [Gazebo Setup](./setup-gazebo) for physics simulation
+- [Module 1: The Robotic Nervous System (ROS 2)](/docs/module-1) to start learning ROS 2 concepts
+- [Hardware Requirements](./hardware-requirements) for additional hardware needs
