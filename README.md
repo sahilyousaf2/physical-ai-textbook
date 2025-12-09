@@ -38,8 +38,8 @@ npm run start
 
 Before deploying, update the following in `book/docusaurus.config.ts`:
 - `url` - Your GitHub Pages URL (e.g., `https://github.com/sahilyousaf2/physical-ai-textbook/edit/001-physical-ai-textbook`)
-- `organizationName` - Your GitHub username
-- `projectName` - Your repository name
+- `sahilyousaf2` - Your GitHub username
+- `physical-ai-textbook` - Your repository name
 
 ## About
 
