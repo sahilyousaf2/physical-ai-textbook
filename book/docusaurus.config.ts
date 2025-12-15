@@ -15,7 +15,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://sahilyousaf2.github.io', // Replace with your GitHub username
+  url: 'https://sahilyousaf2.github.io', // Your GitHub Pages URL
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/physical-ai-textbook/', // GitHub repository name
@@ -177,33 +177,33 @@ const config: Config = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Physical AI Textbook Project. Built with Docusaurus.`,
     },
-    algolia: {
-      // The application ID provided by Algolia
-      appId: 'YOUR_APP_ID',
+    // algolia: {
+    //   // The application ID provided by Algolia
+    //   appId: 'YOUR_APP_ID',
 
-      // Public API key: it is safe to commit it
-      apiKey: 'YOUR_SEARCH_API_KEY',
+    //   // Public API key: it is safe to commit it
+    //   apiKey: 'YOUR_SEARCH_API_KEY',
 
-      indexName: 'physical-ai-textbook',
+    //   indexName: 'physical-ai-textbook',
 
-      // Optional: see doc section below
-      contextualSearch: true,
+    //   // Optional: see doc section below
+    //   contextualSearch: true,
 
-      // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
-      // externalUrlRegex: 'external\\.example\\.com|thirdparty\\.example\\.com',
+    //   // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+    //   // externalUrlRegex: 'external\\.example\\.com|thirdparty\\.example\\.com',
 
-      // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
-      // replaceSearchResultPathname: {
-      //   from: '/docs/', // or as RegExp: /\/docs\//
-      //   to: '/',
-      // },
+    //   // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
+    //   // replaceSearchResultPathname: {
+    //   //   from: '/docs/', // or as RegExp: /\/docs\//
+    //   //   to: '/',
+    //   // },
 
-      // Optional: Algolia search parameters
-      searchParameters: {},
+    //   // Optional: Algolia search parameters
+    //   searchParameters: {},
 
-      // Optional: path for search page that enabled by default (`false` to disable it)
-      searchPagePath: 'search',
-    },
+    //   // Optional: path for search page that enabled by default (`false` to disable it)
+    //   searchPagePath: 'search',
+    // },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
