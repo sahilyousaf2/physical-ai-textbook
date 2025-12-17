@@ -15,7 +15,7 @@ This repository contains a comprehensive textbook on Physical AI & Humanoid Robo
 
 The site is configured for automatic deployment to GitHub Pages:
 1. The GitHub Actions workflow in `.github/workflows/deploy.yml` will automatically build and deploy on pushes to main
-2. Site will be available at `https://<your-username>.github.io/physical-ai-textbook/`
+2. Site will be available at `https://<sahilyousaf2>.github.io/physical-ai-textbook/`
 
 ### Vercel (Manual)
 
@@ -37,9 +37,9 @@ npm run start
 ## Configuration
 
 Before deploying, update the following in `book/docusaurus.config.ts`:
-- `url` - Your GitHub Pages URL (e.g., `https://your-username.github.io`)
-- `organizationName` - Your GitHub username
-- `projectName` - Your repository name
+- `url` - Your GitHub Pages URL (e.g., `https://sahilyousaf2.github.io`)
+- `sahilyousaf2` - Your GitHub username
+- `physical-ai-textbook` - Your repository name
 
 ## About
 
