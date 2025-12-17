@@ -52,4 +52,12 @@ This textbook covers:
 ---
 
 ## GitHub Pages Deployment Status
-✅ GitHub Actions workflow is configured and will automatically deploy the site to GitHub Pages when changes are pushed to the main branch.
+✅ GitHub Actions workflow is configured and will automatically build and deploy the site to the `gh-pages` branch when changes are pushed to the main branch.
+
+⚠️ **Important**: To complete the GitHub Pages setup:
+1. Go to your repository Settings → Pages
+2. Set the source to the `gh-pages` branch (not main branch)
+3. Leave the folder setting as "/"
+4. Click "Save"
+
+If you see a "Dependencies lock file not found" error, GitHub Pages is incorrectly configured to build from the main branch instead of using the pre-built site in the gh-pages branch.
