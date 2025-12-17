@@ -27,7 +27,10 @@
       "Bash(npm run serve)",
       "Bash(npm run)",
       "Bash(cat package.json)",
-      "Bash(git add .claude/settings.local.json book/VERCEL.md)"
+      "Bash(git add .claude/settings.local.json book/VERCEL.md)",
+      "Bash(git checkout master)",
+      "Bash(git add .claude/settings.local.json)",
+      "Bash(git commit -m \"Update settings.local.json\")"
     ],
     "deny": [],
     "ask": []
