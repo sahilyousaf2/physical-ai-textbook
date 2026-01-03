@@ -14,7 +14,7 @@ const config: Config = {
   },
 
   // ✅ VERCEL CONFIG
-  url: 'https://physical-ai-textbook.vercel.app',
+  url: 'https://physical-ai-textbook-neon.vercel.app/',
   baseUrl: '/',
 
   onBrokenLinks: 'throw',
